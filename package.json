@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/philmlaker/sqlTEST/issues"
   },
-  "homepage": "https://github.com/philmlaker/sqlTEST#readme"
+  "homepage": "https://github.com/philmlaker/sqlTEST#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mysql": "^2.15.0",
+    "path": "^0.12.7"
+  }
 }

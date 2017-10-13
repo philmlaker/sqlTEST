@@ -5,7 +5,7 @@ var express = require('express'),
     app = express();
 
 app.use(bodyParser.urlencoded({
-  extended: true
+    extended: true
 }));
 
 app.use(bodyParser.json());
@@ -24,32 +24,43 @@ var connection = mysql.createConnection({
 
 app.use(express.static(__dirname + '/public'));
 
-app.get("/test", function(req, res) {
+app.get("/allresults", function(req, res) {
     connection.query('SELECT * FROM actor', function(err, rows) {
+        console.log(rows);
         if (err) { console.log("Error :" + err) } else { res.send(rows); };
     });
 });
 
-app.post('/firstname', function(req, res) {
-connection.connect(function(err) {
 
-    var inputResult = JSON.stringify(req.body.dataobj);
-    console.log("REQ.BODY: " + req.body)
-    console.log(inputResult);
 
-  if (err) throw err;
-  console.log("Connected!");
-  var sql = "INSERT INTO actor (first_name, last_name) VALUES ?";
-  var values = [
-    [inputResult, "test"]
-  ];
-  connection.query(sql, [values], function (err, result) {
-    if (err) throw err;
-    console.log("Number of records inserted: " + result.affectedRows);
-       console.log("REQ.BODY: " + JSON.stringify(req.body.dataobj));
-    res.send();
-  });
+
+app.delete("/clear", function(req, res) {
+    connection.query('TRUNCATE TABLE actor', function(err, rows) {
+        console.log("clearing table");
+        if (err) { console.log("Error :" + err) } else { res.send(); };
+    });
 });
+
+app.post('/firstname', function(req, res) {
+    connection.connect(function(err) {
+
+        var inputResult = req.body.dataobj;
+        console.log("REQ.BODY: " + req.body)
+        console.log(inputResult);
+
+        if (err) throw err;
+        console.log("Connected!");
+        var sql = "INSERT INTO actor (first_name, last_name) VALUES ?";
+        var values = [
+            [inputResult, "test"]
+        ];
+        connection.query(sql, [values], function(err, result) {
+            if (err) throw err;
+            console.log("Number of records inserted: " + result.affectedRows);
+            console.log("REQ.BODY: " + inputResult);
+            res.send();
+        });
+    });
 });
 
 

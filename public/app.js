@@ -1,27 +1,18 @@
 $(document).ready(function() {
 
-    $("#click").click(function() {
-        alert("Handler for .click() called.");
+      $("#clear").click(function(event) {
+        event.preventDefault();
+        alert("You are about to clear the table, get ready!");
+        
         $.ajax({
-            url: "/test",
-            type: 'GET',
-            dataType: 'json',
-            success: function(res, req) {
-              var last = (res.length)-1;
-
-
-
-                console.log(res[last].first_name);
-
-                  var firstname = res[last].first_name;
-                  firstname = firstname.replace(/['"]+/g, '');
-
-
-                $("#results").html(firstname);
-
-            }
-        });
+                url: "/clear",
+                type: 'DELETE'
+            })
+            .done(function(req, res) {
+                
+            });
     });
+
 
     $("#submit").click(function(event) {
         event.preventDefault();
@@ -30,7 +21,7 @@ $(document).ready(function() {
         console.log(value);
         $.ajax({
                 url: "/firstname",
-                data: {dataobj:value},
+                data: { dataobj: value },
                 type: 'POST'
             })
             .done(function(req, res) {
@@ -38,17 +29,35 @@ $(document).ready(function() {
                 console.log(req);
                 console.log(res);
             });
+    });
 
+
+    $("#click-all-results").click(function() {
+        alert("All Results Coming Up!");
+            $.ajax({
+            url: "/allresults",
+            type: 'GET',
+            dataType: 'json',
+           })
+            .done(function(req, res) {
+              console.log(req);
+
+  
+      
+
+              for (var i = 0; i < req.length; ++i) {
+                console.log(JSON.stringify(req[i].first_name));
+                $("#all-results").append(req[i].actor_id + " ");
+                $("#all-results").append(req[i].first_name);
+                $("#all-results").append("</br>");
+           
+                };
+
+
+            });
+        });
 
 
 
 
     });
-
-
-    $("#results").on("click", function() {
-        console.log($(this).text());
-
-    });
-
-});

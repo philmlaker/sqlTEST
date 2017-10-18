@@ -41,18 +41,27 @@ $(document).ready(function() {
            })
             .done(function(req, res) {
               console.log(req);
+               $("#all-results").empty();
 
-  
-      
+
+
+
+                 var myTableArray = [];
+                 myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Gender</th><tr>");
 
               for (var i = 0; i < req.length; ++i) {
-                console.log(JSON.stringify(req[i].first_name));
-                $("#all-results").append(req[i].actor_id + " ");
-                $("#all-results").append(req[i].first_name);
-                $("#all-results").append("</br>");
-           
+                     myTableArray.push(
+         
+                    "<tr><td>" + req[i].id + "</td>" +
+                    "<td>" + req[i].first_name + "</td>" +
+                    "<td>" + req[i].last_name + "</td>" +
+                    "<td>" + req[i].email + "</td>" +
+                    "<td>" + req[i].gender + "</td></tr>");
+                
                 };
 
+               
+                $("#all-results").append(myTableArray);
 
             });
         });

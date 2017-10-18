@@ -25,7 +25,7 @@ var connection = mysql.createConnection({
 app.use(express.static(__dirname + '/public'));
 
 app.get("/allresults", function(req, res) {
-    connection.query('SELECT * FROM actor', function(err, rows) {
+    connection.query('SELECT * FROM mock_data', function(err, rows) {
         console.log(rows);
         if (err) { console.log("Error :" + err) } else { res.send(rows); };
     });

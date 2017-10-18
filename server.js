@@ -32,13 +32,11 @@ app.get("/allresults", function(req, res) {
 });
 
 
+app.get("/delete:id", function(req, res) {
+    var id = req.params;
+    console.log("from Server" + id);
+    res.end();
 
-
-app.delete("/clear", function(req, res) {
-    connection.query('TRUNCATE TABLE actor', function(err, rows) {
-        console.log("clearing table");
-        if (err) { console.log("Error :" + err) } else { res.send(); };
-    });
 });
 
 app.post('/firstname', function(req, res) {

@@ -1,6 +1,10 @@
 @darkColor: darkgrey;
 @mediumColor: lightgrey;
+@lightGrey: lighten(@mediumColor, 10%);
 
+body{
+	background-color: @lightGrey;
+}
 
 table {
     background-color:@darkColor;
@@ -15,6 +19,17 @@ th,td{
 }
 
 th{
-	
 	color: white;
+}
+
+button{
+	margin: 5px 5px;
+}
+
+tr:hover{
+	background-color: @lightGrey;
+}
+
+.dialog-confirm{
+	background-color: red;
 }

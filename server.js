@@ -32,10 +32,20 @@ app.get("/allresults", function(req, res) {
 });
 
 
-app.get("/delete:id", function(req, res) {
-    var id = req.params;
-    console.log("from Server" + id);
-    res.end();
+app.delete("/delete:id?", function(req, res) {
+    var id = req.params.id;
+    console.log("from Server " + id);
+
+
+
+    connection.query('DELETE FROM mock_data WHERE last_name= ?', [id], function(err, rows) {
+        console.log(rows);
+        if (err) { console.log("Error :" + err) } else { res.send(rows); };
+    });
+
+
+
+
 
 });
 

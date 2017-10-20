@@ -49,26 +49,26 @@ app.delete("/delete:id?", function(req, res) {
 
 });
 
-app.post('/firstname', function(req, res) {
-    connection.connect(function(err) {
+app.post('/add', function(req, res) {
 
-        var inputResult = req.body.dataobj;
-        console.log("REQ.BODY: " + req.body)
-        console.log(inputResult);
 
-        if (err) throw err;
-        console.log("Connected!");
-        var sql = "INSERT INTO actor (first_name, last_name) VALUES ?";
+      
+        var firstName = req.body.firstName;
+        var lastName = req.body.lastName;
+        var email = req.body.email;
+        var gender = req.body.gender;
+
+     
+        var sql = "INSERT INTO mock_data (first_name, last_name, email, gender) VALUES ?";
         var values = [
-            [inputResult, "test"]
+            [firstName, lastName, email, gender]
         ];
         connection.query(sql, [values], function(err, result) {
             if (err) throw err;
             console.log("Number of records inserted: " + result.affectedRows);
-            console.log("REQ.BODY: " + inputResult);
             res.send();
         });
-    });
+
 });
 
 

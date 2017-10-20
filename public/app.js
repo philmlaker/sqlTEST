@@ -17,12 +17,19 @@ $(document).ready(function() {
     $("#submit").click(function(event) {
         event.preventDefault();
         alert("Submit");
-        var value = $("#FirstName").val();
-        console.log(value);
+        var firstName =  $("#firstName").val();
+        var lastName = $("#lastName").val();
+        var email = $("#email").val();
+        var gender = $("#gender").val();
+        console.log( $("#firstName").val());
+        console.log( $("#lastName").val())
+        console.log( $("#email").val());
+        console.log( $("#gender").val());
         $.ajax({
-                url: "/firstname",
-                data: { dataobj: value },
-                type: 'POST'
+                url: "/add",
+                data: {firstName: firstName, lastName: lastName, email: email, gender: gender},
+                type: 'POST',
+                dataType: 'json'
             })
             .done(function(req, res) {
                 console.log("complete, from app.js");

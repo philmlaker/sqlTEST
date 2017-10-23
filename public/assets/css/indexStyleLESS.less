@@ -1,6 +1,7 @@
 @darkColor: darkgrey;
 @mediumColor: lightgrey;
 @lightGrey: lighten(@mediumColor, 10%);
+@basicBorder: 1px solid black;
 
 body{
 	background-color: @lightGrey;
@@ -30,3 +31,27 @@ tr:hover{
 	background-color: @lightGrey;
 }
 
+form {
+	border: @basicBorder;
+	margin: 5px 5px;
+	padding: 15px 30px;
+	width: 25%;
+	height: 400px;
+}
+
+.input_field{
+	margin: 5px 5px;
+	width: 100%;
+	margin-bottom: 20px;
+
+}
+
+#submit {
+	margin-top: 20px;
+	float: right;
+}
+
+#control_panel{
+	border: @basicBorder;
+	height: 100px;
+}

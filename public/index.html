@@ -10,26 +10,44 @@
     <!--     <link rel="stylesheet" type="text/css" href="assets/css/testStyle.css"> -->
     <link rel="stylesheet/less" href="/assets/css/indexStyleLESS.less" type="text/css" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script>
+    <script src='assets/build/pdfmake.min.js'></script>
+    <script src='assets/build/vfs_fonts.js'></script>
 </head>
 
 <body>
-   
- 
-</div>
+    <h1>Employee Database</h1>
+    <hr>
+    <br>
     <form>
-         First Name: <input type="text" id="firstName"><br>
-         Last Name: <input type="text" id="lastName"><br>
-         E-mail: <input type="text" id="email"><br>
-         Gender: <input type="text" id="gender"><br>
-         <button id="submit">Submit</button>
-<!--         <input id="submit" type="submit" value="Submit"> -->
+        <h2>Add New Employee</h2>
+
+        First Name:
+        <input class="input_field" type="text" id="firstName">
+        <br> Last Name:
+        <input class="input_field" type="text" id="lastName">
+        <br> E-mail:
+        <input class="input_field" type="text" id="email">
+        <br> Gender:
+        <select class="input_field" id="gender">
+             <option value="" disabled selected>Select your option</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+        </select>
+        <br>
+        <button id="submit">Submit</button>
+        <!--         <input id="submit" type="submit" value="Submit"> -->
     </form>
     <br>
     <br>
     <br>
     <br>
-    <button id="click-all-results">CLICK FOR ALL RESULTS</button>
+     <div id="control_panel">
+    <button id="click-all-results">CLICK FOR ALL USERS</button>
+    <button id="createPDF">Create PDF</button>
+   
+    </div>
     <h3>Total Number of Users: <span id="totalUsers"></span></h3>
+
     <table id="all-results">
     </table>
 </body>

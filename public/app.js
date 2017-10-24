@@ -156,20 +156,54 @@ function pushTable(){
                 myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
 
                 for (var i = 0; i < req.length; ++i) {
-                    myTableArray.push(
 
-                        "<tr><td>" + req[i].id + "</td>" +
+
+                    // myTableArray.push(
+
+                    //     "<tr><td>" + req[i].id + "</td>" +
+                    //     "<td>" + req[i].first_name + "</td>" +
+                    //     "<td>" + req[i].last_name + "</td>" +
+                    //     "<td>" + req[i].email + "</td>" +
+                    //     "<td>" + req[i].department + "</td>" +
+                    //     "<td>" + req[i].active + "</td>" +
+                    //     // "<td>" + req[i].endDate + "</td>" +
+                    //     // "<td><button disabled='true' id=" + "inactivate" + ">Inactivate</button></td>" +
+                    //     // "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+                    // );
+
+
+                        if (req[i].active == "Inactive"){
+                        myTableArray.push(
+                            "<tr><td>" + req[i].id + "</td>" +
                         "<td>" + req[i].first_name + "</td>" +
                         "<td>" + req[i].last_name + "</td>" +
                         "<td>" + req[i].email + "</td>" +
                         "<td>" + req[i].department + "</td>" +
                         "<td>" + req[i].active + "</td>" +
-                        "<td>" + req[i].endDate + "</td>" +
-                        "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
+                            "<td><button disabled='true' id=" + "inactivate" + ">Inactivate</button></td>" +
                         "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-                    );
+
+                            );
+                     } else {
+
+                         myTableArray.push(
+                            "<tr><td>" + req[i].id + "</td>" +
+                        "<td>" + req[i].first_name + "</td>" +
+                        "<td>" + req[i].last_name + "</td>" +
+                        "<td>" + req[i].email + "</td>" +
+                        "<td>" + req[i].department + "</td>" +
+                        "<td>" + req[i].active + "</td>" +
+                            "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
+                        "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+
+                            );
+                        
+                     }; 
 
                 };
+
+             
+      
 
 
                 $("#all-results").append(myTableArray);
@@ -205,6 +239,8 @@ function pushTable(){
         var $row = $(this).closest('tr');
         var $columns = $row.find('td');
         var id = $columns[0].innerHTML;
+        var button = $(this);
+        console.log(button);
         var bla = "";
 
         $(function() {
@@ -264,7 +300,7 @@ function pushTable(){
 
         });
 
-          
+
     });
 
 

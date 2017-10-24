@@ -1,22 +1,18 @@
 $(document).ready(function() {
 
-    $("#e-mail").click(function(event) {
+
+    $("#e-mail").click(function(event) {});
 
 
-    });
-
-
-function sendEmail_NewHire(email,firstname,lastname){
-
+    function sendEmail_NewHire(email, firstname, lastname) {
         alert("Test email");
-
         var omni_Id = firstname.charAt(0) + lastname;
         omni_Id = omni_Id.toLowerCase();
         console.log(omni_Id);
         // parameters: service_id, template_id, template_parameters
-        emailjs.send("default_service", "template_pNljs1L2", {omni_Id: omni_Id, to_name: "Brooklyn", send_to:"philmlaker@gmail.com" });
+        emailjs.send("default_service", "template_pNljs1L2", { omni_Id: omni_Id, to_name: "Brooklyn", send_to: "philmlaker@gmail.com" });
 
-};
+    };
 
 
     $("#createPDF").click(function(event) {
@@ -69,7 +65,7 @@ function sendEmail_NewHire(email,firstname,lastname){
 
     function addPerson(firstName, lastName, email, gender) {
 
-        sendEmail_NewHire(email,firstName,lastName);
+        sendEmail_NewHire(email, firstName, lastName);
 
         $.ajax({
                 url: "/add",
@@ -90,25 +86,62 @@ function sendEmail_NewHire(email,firstname,lastname){
         var firstName = $("#firstName").val();
         var lastName = $("#lastName").val();
         var email = $("#email").val();
-        var gender = $("#gender").val();
-
+        var department = $("#department").val();
 
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         };
-
         firstName = capitalizeFirstLetter(firstName);
         lastName = capitalizeFirstLetter(lastName);
 
-        formValidation(firstName, lastName, email, gender);
-
-
+        formValidation(firstName, lastName, email, department);
     });
 
 
     $("#click-all-results").click(function() {
         alert("All Results Coming Up!");
-        $.ajax({
+        pushTable();
+        // $.ajax({
+        //         url: "/allresults",
+        //         type: 'GET',
+        //         dataType: 'json',
+        //     })
+        //     .done(function(req, res) {
+        //         console.log(req);
+        //         console.log(req.length);
+        //         $("#all-results").empty();
+
+
+        //         var myTableArray = [];
+        //         myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
+
+        //         for (var i = 0; i < req.length; ++i) {
+        //             myTableArray.push(
+
+        //                 "<tr><td>" + req[i].id + "</td>" +
+        //                 "<td>" + req[i].first_name + "</td>" +
+        //                 "<td>" + req[i].last_name + "</td>" +
+        //                 "<td>" + req[i].email + "</td>" +
+        //                 "<td>" + req[i].department + "</td>" +
+        //                 "<td>" + req[i].active + "</td>" +
+        //                 "<td>" + req[i].endDate + "</td>" +
+        //                 "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
+        //                 "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+        //             );
+
+        //         };
+
+
+        //         $("#all-results").append(myTableArray);
+        //         $("#totalUsers").html(req.length);
+
+        //     });
+    });
+
+
+function pushTable(){
+
+            $.ajax({
                 url: "/allresults",
                 type: 'GET',
                 dataType: 'json',
@@ -119,10 +152,8 @@ function sendEmail_NewHire(email,firstname,lastname){
                 $("#all-results").empty();
 
 
-
-
                 var myTableArray = [];
-                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Gender</th><tr>");
+                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
 
                 for (var i = 0; i < req.length; ++i) {
                     myTableArray.push(
@@ -131,7 +162,10 @@ function sendEmail_NewHire(email,firstname,lastname){
                         "<td>" + req[i].first_name + "</td>" +
                         "<td>" + req[i].last_name + "</td>" +
                         "<td>" + req[i].email + "</td>" +
-                        "<td>" + req[i].gender + "</td>" +
+                        "<td>" + req[i].department + "</td>" +
+                        "<td>" + req[i].active + "</td>" +
+                        "<td>" + req[i].endDate + "</td>" +
+                        "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
                         "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
                     );
 
@@ -142,10 +176,7 @@ function sendEmail_NewHire(email,firstname,lastname){
                 $("#totalUsers").html(req.length);
 
             });
-    });
-
-
-
+};
 
     $('body').on('click', '#delete', function() {
 
@@ -163,67 +194,78 @@ function sendEmail_NewHire(email,firstname,lastname){
         console.log(url_id);
 
 
-        $.ajax({
-                url: url_id,
-                type: 'DELETE',
-                dataType: 'json',
-            })
-            .done(function(req, res) {
-
-                console.log("complete, from app.js");
-
-
-                $("#all-results").empty();
-
-
-                alert("All Results Coming Up!");
-                $.ajax({
-                        url: "/allresults",
-                        type: 'GET',
-                        dataType: 'json',
-                    })
-                    .done(function(req, res) {
-                        console.log(req);
-                        console.log(req.length);
-                        $("#all-results").empty();
-
-
-
-
-                        var myTableArray = [];
-                        myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Gender</th><tr>");
-
-                        for (var i = 0; i < req.length; ++i) {
-                            myTableArray.push(
-
-                                "<tr><td>" + req[i].id + "</td>" +
-                                "<td>" + req[i].first_name + "</td>" +
-                                "<td>" + req[i].last_name + "</td>" +
-                                "<td>" + req[i].email + "</td>" +
-                                "<td>" + req[i].gender + "</td>" +
-                                "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-                            );
-
-                        };
-
-
-                        $("#all-results").append(myTableArray);
-                        $("#totalUsers").html(req.length);
-
-                    });
-
-
-
-
-
-
-
-
-
-            });
+            pushTable();
     });
 
 
+
+    $('body').on('click', '#inactivate', function() {
+        console.log("Inactivate");
+
+        var $row = $(this).closest('tr');
+        var $columns = $row.find('td');
+        var id = $columns[0].innerHTML;
+        var bla = "";
+
+        $(function() {
+            $('#myDialog').dialog({
+                closeOnEscape: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                open: function() {
+                    $('#myDate').datepicker({ title: 'Test Dialog' }).blur();
+                    $("#myDate").datepicker("option", "dateFormat", 'mm/dd/yy');
+
+                    $(".ui-dialog-titlebar-close").hide();
+                },
+                close: function() {
+                    $('#myDate').datepicker('destroy');
+                }
+            });
+
+        });
+
+        $('#myDialog').on('click', '#close', function() {
+            $('#myDialog').dialog("close")
+
+        });
+
+        $('#myDialog').on('click', '#create-user', function() {
+            bla = $('#myDate').val();
+
+
+
+            console.log("from this" + bla);
+            $('#myDialog').dialog("close")
+
+
+
+
+
+
+            console.log(id + bla);
+
+
+            $.ajax({
+                    url: "/update",
+                    data: { bla: bla, id: id },
+                    type: 'PATCH',
+                    dataType: 'json',
+                })
+                .done(function(req, res) {
+                    pushTable();
+
+
+                });
+
+
+
+        });
+
+          
+    });
 
 
 
@@ -269,9 +311,6 @@ function sendEmail_NewHire(email,firstname,lastname){
             alert("Congrats");
             addPerson(firstname, lastname, email, gender);
         } else { alert("bad"); return false; }
-
-
-
     };
 
 

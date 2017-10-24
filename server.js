@@ -17,10 +17,12 @@ module.exports - app;
 
 var connection = mysql.createConnection({
     host: 'localhost',
-    port: '8815',
+    // port: '8815',
     user: 'root',
-    password: 'root',
-    database: 'test_db'
+    password: '1234',
+    // password: 'root',
+    database: 'sakila'
+    // database: 'test_db'
 });
 
 app.use(express.static(__dirname + '/public'));
@@ -35,7 +37,7 @@ app.get("/allresults", function(req, res) {
 
 app.delete("/delete:id?", function(req, res) {
     var id = req.params.id;
-    console.log("from Server " + id);
+    console.log("from Server5656 " + id);
 
 
 
@@ -44,11 +46,41 @@ app.delete("/delete:id?", function(req, res) {
         if (err) { console.log("Error :" + err) } else { res.send(rows); };
     });
 
+});
+
+
+app.patch("/update", function(req, res) {
+    var id = req.body.id;
+    var date = req.body.bla;
+    console.log(req.body.bla);
+    console.log(req.body.id);
+
+
+    connection.query('UPDATE mock_data SET endDate= ? WHERE id= ?', [date, id], function(err, rows) {
+        console.log(rows);
+        if (err) { console.log("Error :" + err) } else {
+
+
+connection.query('UPDATE mock_data SET active="Inactive" WHERE id= ?', [id], function(err, rows) {
+        console.log(rows);
+        if (err) { console.log("Error :" + err) } else { res.send(rows); };
+    });
 
 
 
+
+
+         };
+    });
+
+
+    
 
 });
+
+
+
+
 
 app.post('/add', function(req, res) {
 

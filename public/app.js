@@ -1,51 +1,77 @@
 $(document).ready(function() {
 
-$("#createPDF").click(function(event) {
-    console.log("create PDF b");
-    var column = [];
-    var firstName = [];
-    var lastName = [];
-    var docDefinition = {};
-    var body = [];
+    $("#e-mail").click(function(event) {
 
 
-                 
-
-    $.ajax({
-                    url: "/allresults",
-                    type: 'GET',
-                    dataType: 'json',
-                })
-                .done(function(req, res) {
-                    console.log(res);
-                    column.push({text: "First Name"});
-
-                    for (var i = 0; i < req.length; ++i) {
-                        console.log(req[i].first_name);
-                        firstName.push(req[i].first_name);
-                        lastName.push(req[i].last_name);
-                        };
-               
+    });
 
 
+function sendEmail_NewHire(email,firstname,lastname){
 
-docDefinition = { content: [
+        alert("Test email");
 
-    {
-            style: 'tableExample',
-            table: {
-                body: [["First Name", "Last Name"], [firstName, lastName]]
-            }
-        }]
+        var omni_Id = firstname.charAt(0) + lastname;
+        omni_Id = omni_Id.toLowerCase();
+        console.log(omni_Id);
+        // parameters: service_id, template_id, template_parameters
+        emailjs.send("default_service", "template_pNljs1L2", {omni_Id: omni_Id, to_name: "Brooklyn", send_to:"philmlaker@gmail.com" });
+
 };
-   pdfMake.createPdf(docDefinition).open();     
- });
-});
 
 
-function addPerson (firstName,lastName,email,gender){
-    
-         $.ajax({
+    $("#createPDF").click(function(event) {
+        console.log("create PDF b");
+        var column = [];
+        var firstName = [];
+        var lastName = [];
+        var docDefinition = {};
+        var body = [];
+
+
+
+
+        $.ajax({
+                url: "/allresults",
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(req, res) {
+                console.log(res);
+                column.push({ text: "First Name" });
+
+                for (var i = 0; i < req.length; ++i) {
+                    console.log(req[i].first_name);
+                    firstName.push(req[i].first_name);
+                    lastName.push(req[i].last_name);
+                };
+
+
+
+
+                docDefinition = {
+                    content: [
+
+                        {
+                            style: 'tableExample',
+                            table: {
+                                body: [
+                                    ["First Name", "Last Name"],
+                                    [firstName, lastName]
+                                ]
+                            }
+                        }
+                    ]
+                };
+                pdfMake.createPdf(docDefinition).open();
+            });
+    });
+
+
+    function addPerson(firstName, lastName, email, gender) {
+
+        sendEmail_NewHire(email,firstName,lastName);
+
+        $.ajax({
                 url: "/add",
                 data: { firstName: firstName, lastName: lastName, email: email, gender: gender },
                 type: 'POST',
@@ -56,7 +82,7 @@ function addPerson (firstName,lastName,email,gender){
 
             });
 
-}
+    }
 
 
     $("#submit").click(function(event) {
@@ -67,56 +93,56 @@ function addPerson (firstName,lastName,email,gender){
         var gender = $("#gender").val();
 
 
-    function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-};
-    
-    firstName = capitalizeFirstLetter(firstName);
-    lastName = capitalizeFirstLetter(lastName);
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        };
 
-        formValidation(firstName,lastName,email,gender);
+        firstName = capitalizeFirstLetter(firstName);
+        lastName = capitalizeFirstLetter(lastName);
 
-       
+        formValidation(firstName, lastName, email, gender);
+
+
     });
 
 
-        $("#click-all-results").click(function() {
-            alert("All Results Coming Up!");
-            $.ajax({
-                    url: "/allresults",
-                    type: 'GET',
-                    dataType: 'json',
-                })
-                .done(function(req, res) {
-                    console.log(req);
-                    console.log(req.length);
-                    $("#all-results").empty();
+    $("#click-all-results").click(function() {
+        alert("All Results Coming Up!");
+        $.ajax({
+                url: "/allresults",
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(req, res) {
+                console.log(req);
+                console.log(req.length);
+                $("#all-results").empty();
 
 
 
 
-                    var myTableArray = [];
-                    myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Gender</th><tr>");
+                var myTableArray = [];
+                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Gender</th><tr>");
 
-                    for (var i = 0; i < req.length; ++i) {
-                        myTableArray.push(
+                for (var i = 0; i < req.length; ++i) {
+                    myTableArray.push(
 
-                            "<tr><td>" + req[i].id + "</td>" +
-                            "<td>" + req[i].first_name + "</td>" +
-                            "<td>" + req[i].last_name + "</td>" +
-                            "<td>" + req[i].email + "</td>" +
-                            "<td>" + req[i].gender + "</td>" +
-                            "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-                        );
+                        "<tr><td>" + req[i].id + "</td>" +
+                        "<td>" + req[i].first_name + "</td>" +
+                        "<td>" + req[i].last_name + "</td>" +
+                        "<td>" + req[i].email + "</td>" +
+                        "<td>" + req[i].gender + "</td>" +
+                        "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+                    );
 
-                    };
+                };
 
 
-                    $("#all-results").append(myTableArray);
-                    $("#totalUsers").html(req.length);
+                $("#all-results").append(myTableArray);
+                $("#totalUsers").html(req.length);
 
-                });
-        });
+            });
+    });
 
 
 
@@ -208,26 +234,26 @@ function addPerson (firstName,lastName,email,gender){
 
 
 
-        function allLetter(firstname,lastname) {
+        function allLetter(firstname, lastname) {
             var letters = /^[A-Za-z]+$/;
             if (firstname.match(letters) && lastname.match(letters)) {
                 return true;
-            } else if(!(lastname.match(letters)) && !(firstname.match(letters))) {
+            } else if (!(lastname.match(letters)) && !(firstname.match(letters))) {
                 alert('First and Last Name must have alphabet characters only');
                 $("#lastName, #firstName").focus();
                 return false;
-            }else if( !(firstname.match(letters)) ) {
+            } else if (!(firstname.match(letters))) {
                 alert('First Name must have alphabet characters only');
                 $("#firstName").focus();
                 return false;
-            } else if( !(lastname.match(letters))) {
+            } else if (!(lastname.match(letters))) {
                 alert('Last Name must have alphabet characters only');
                 $("#lastName").focus();
                 return false;
-            } 
+            }
         };
 
-       
+
         function ValidateEmail(email) {
             var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (email.match(mailformat)) {
@@ -239,10 +265,10 @@ function addPerson (firstName,lastName,email,gender){
             }
         };
 
-        if((allLetter(firstname,lastname) == true) && (ValidateEmail(email)) == true){
+        if ((allLetter(firstname, lastname) == true) && (ValidateEmail(email)) == true) {
             alert("Congrats");
             addPerson(firstname, lastname, email, gender);
-        } else {alert("bad"); return false;}
+        } else { alert("bad"); return false; }
 
 
 

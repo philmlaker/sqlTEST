@@ -12,6 +12,12 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script>
     <script src='assets/build/pdfmake.min.js'></script>
     <script src='assets/build/vfs_fonts.js'></script>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("user_HegEu0lU9s728jtskFoFN");
+   })();
+</script>
 </head>
 
 <body>
@@ -19,9 +25,7 @@
     <hr>
     <br>
     <form>
-        <h2>Add New Employee</h2>
-
-        First Name:
+        <h2>Add New Employee</h2> First Name:
         <input class="input_field" type="text" id="firstName">
         <br> Last Name:
         <input class="input_field" type="text" id="lastName">
@@ -29,10 +33,21 @@
         <input class="input_field" type="text" id="email">
         <br> Gender:
         <select class="input_field" id="gender">
-             <option value="" disabled selected>Select your option</option>
+            <option value="" disabled selected>Select your option</option>
             <option value="Female">Female</option>
             <option value="Male">Male</option>
         </select>
+       <!--  <br> Department:
+        <select class="input_field" id="department">
+            <option value="" disabled selected>Select department</option>
+            <option value="admin">Adminstrative</option>
+            <option value="ac">Analytical Chemistry</option>
+            <option value="core">Core</option>
+            <option value="mol">Molecular</option>
+        </select>
+        <br> Start Date:
+        <input type="date" name="bday" max="1979-12-31"> -->
+        <br>
         <br>
         <button id="submit">Submit</button>
         <!--         <input id="submit" type="submit" value="Submit"> -->
@@ -41,13 +56,12 @@
     <br>
     <br>
     <br>
-     <div id="control_panel">
-    <button id="click-all-results">CLICK FOR ALL USERS</button>
-    <button id="createPDF">Create PDF</button>
-   
+    <div id="control_panel">
+        <button id="click-all-results">CLICK FOR ALL USERS</button>
+        <button id="createPDF">Create PDF</button>
+        <button id="e-mail">Generate E-mail</button>
     </div>
     <h3>Total Number of Users: <span id="totalUsers"></span></h3>
-
     <table id="all-results">
     </table>
 </body>

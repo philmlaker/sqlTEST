@@ -17,9 +17,10 @@ module.exports - app;
 
 var connection = mysql.createConnection({
     host: 'localhost',
+    port: '8815',
     user: 'root',
-    password: '1234',
-    database: 'sakila'
+    password: 'root',
+    database: 'test_db'
 });
 
 app.use(express.static(__dirname + '/public'));

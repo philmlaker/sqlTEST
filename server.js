@@ -89,12 +89,13 @@ app.post('/add', function(req, res) {
         var firstName = req.body.firstName;
         var lastName = req.body.lastName;
         var email = req.body.email;
-        var gender = req.body.gender;
+        var department = req.body.department;
+        var active = "Active";
 
      
-        var sql = "INSERT INTO mock_data (first_name, last_name, email, gender) VALUES ?";
+        var sql = "INSERT INTO mock_data (first_name, last_name, email, department, active) VALUES ?";
         var values = [
-            [firstName, lastName, email, gender]
+            [firstName, lastName, email, department, active]
         ];
         connection.query(sql, [values], function(err, result) {
             if (err) throw err;

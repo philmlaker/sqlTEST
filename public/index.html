@@ -22,9 +22,9 @@
 <body>
     
     <div id="myDialog" title="Input Last Day">
-<p>The textbox below should show the datepicker on focus, except for when the dialog opens.</p>
+<p>Enter the employee's last day of employment.</p>
 Enter date: <input type="text" id="myDate" readonly="readonly"/>
-<button id="create-user">Create new user</button>
+<button id="submitEndDate">Submit</button>
 <button id="close">Cancel</button>
 </div>
 
@@ -46,9 +46,9 @@ Enter date: <input type="text" id="myDate" readonly="readonly"/>
             <option value="Core">Core</option>
             <option value="Molecular">Molecular</option>
         </select>
-        <!-- <br> Start Date:
-        <input class="input_field" type="date" name="bday" id="date">
-         <br> Job Position:
+        <br> Start Date:
+        <input class="input_field" type="text" name="startDate" id="startDate" readonly="readonly">
+    <!--      <br> Job Position:
         <input class="input_field" type="text" id="position">
         <br> Apollo Username:
         <input class="input_field" type="text" id="apolloUser">
@@ -66,12 +66,13 @@ Enter date: <input type="text" id="myDate" readonly="readonly"/>
         <input type="checkbox" id="music" name="interest" value="music">
         <label for="music">Supervisor</label>
     </div>
-</fieldset> -->
+</fieldset>
         <br>
-        <br>
+        <br> -->
+
         <button id="submit">Submit</button>
-        <!--         <input id="submit" type="submit" value="Submit"> -->
-    </form>
+             
+    </form> 
     <br>
     <br>
     <br>
@@ -80,8 +81,13 @@ Enter date: <input type="text" id="myDate" readonly="readonly"/>
         <button id="click-all-results">CLICK FOR ALL USERS</button>
         <button id="createPDF">Create PDF</button>
         <button id="e-mail">Generate E-mail</button>
+        <button id="currentEmployees">Only Current Employees</button>
     </div>
-    <h3>Total Number of Users: <span id="totalUsers"></span></h3>
+    <h3>Total Number of Employees: <span id="totalUsers"></span></h3>
+    <h3>Adminstrative Staff: <span id="totalAdmin"></span></h3>
+    <h3>Analytical Chemistry Staff: <span id="totalAC"></span></h3>
+    <h3>Core Staff: <span id="totalCOR"></span></h3>
+    <h3>Molecular Staff: <span id="totalMOL"></span></h3>
     <table id="all-results">
     </table>
 

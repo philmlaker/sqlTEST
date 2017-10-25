@@ -1,6 +1,119 @@
 $(document).ready(function() {
 
 
+
+
+
+      $("#currentEmployees").click(function(event) {
+
+        alert("Current Employees Coming Up!");
+
+
+                   $.ajax({
+                url: "/allresults",
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(req, res) {
+                console.log(req);
+                console.log(req.length);
+                $("#all-results").empty();
+
+
+                var myTableArray = [];
+                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
+
+                for (var i = 0; i < req.length; ++i) {
+
+
+                    // myTableArray.push(
+
+                    //     "<tr><td>" + req[i].id + "</td>" +
+                    //     "<td>" + req[i].first_name + "</td>" +
+                    //     "<td>" + req[i].last_name + "</td>" +
+                    //     "<td>" + req[i].email + "</td>" +
+                    //     "<td>" + req[i].department + "</td>" +
+                    //     "<td>" + req[i].active + "</td>" +
+                    //     // "<td>" + req[i].endDate + "</td>" +
+                    //     // "<td><button disabled='true' id=" + "inactivate" + ">Inactivate</button></td>" +
+                    //     // "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+                    // );
+
+
+                        if (req[i].active == "Active"){
+                        myTableArray.push(
+                            "<tr><td>" + req[i].id + "</td>" +
+                        "<td>" + req[i].first_name + "</td>" +
+                        "<td>" + req[i].last_name + "</td>" +
+                        "<td><a href='mailto:" + req[i].email + "'>" + req[i].email + "</a></td>" +
+                        "<td>" + req[i].department + "</td>" +
+                        "<td>" + req[i].active + "</td>" +
+                         "<td>" + req[i].endDate + "</td>" +
+                            "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
+                        "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+
+                            );
+                     } else {
+
+                         
+                        
+                     }; 
+
+                };
+
+                 var totalAdmin = "";
+                  var totalAC = "";
+                   var totalCOR = "";
+                    var totalMOL = "";
+
+                    
+
+                for (var i = 0; i < req.length; ++i) 
+                    if (req[i].active == "Active") {
+
+                            {
+                                if (req[i].department == "Adminstrative"){
+                                    totalAdmin = +1;
+                                }else if (req[i].department == "Analytical Chemistry"){
+                                     totalAC = +1;
+                                }else if (req[i].department == "Core"){
+                                    totalCOR = +1;
+                                }else if (req[i].department == "Molecular"){
+                                    totalMOL = +1;
+                                }
+                            };
+            } else {};
+
+
+                $("#all-results").append(myTableArray);
+                $("#totalUsers").html(req.length);
+                $("#totalAdmin").html(totalAdmin);
+                $("#totalAC").html(totalAC);
+                $("#totalCOR").html(totalCOR);
+                $("#totalMOL").html(totalMOL);
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      });
+
     $("#e-mail").click(function(event) {});
 
 
@@ -10,7 +123,7 @@ $(document).ready(function() {
         omni_Id = omni_Id.toLowerCase();
         console.log(omni_Id);
         // parameters: service_id, template_id, template_parameters
-        emailjs.send("default_service", "template_pNljs1L2", { omni_Id: omni_Id, to_name: "Brooklyn", send_to: "philmlaker@gmail.com" });
+        // emailjs.send("default_service", "template_pNljs1L2", { omni_Id: omni_Id, to_name: "Brooklyn", send_to: "philmlaker@gmail.com" });
 
     };
 
@@ -63,13 +176,13 @@ $(document).ready(function() {
     });
 
 
-    function addPerson(firstName, lastName, email, gender) {
+    function addPerson(firstName, lastName, email, department) {
 
         sendEmail_NewHire(email, firstName, lastName);
 
         $.ajax({
                 url: "/add",
-                data: { firstName: firstName, lastName: lastName, email: email, gender: gender },
+                data: { firstName: firstName, lastName: lastName, email: email, department: department },
                 type: 'POST',
                 dataType: 'json'
             })
@@ -180,6 +293,7 @@ function pushTable(){
                         "<td>" + req[i].email + "</td>" +
                         "<td>" + req[i].department + "</td>" +
                         "<td>" + req[i].active + "</td>" +
+                         "<td>" + req[i].endDate + "</td>" +
                             "<td><button disabled='true' id=" + "inactivate" + ">Inactivate</button></td>" +
                         "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
 
@@ -193,6 +307,7 @@ function pushTable(){
                         "<td>" + req[i].email + "</td>" +
                         "<td>" + req[i].department + "</td>" +
                         "<td>" + req[i].active + "</td>" +
+                        "<td>" + req[i].endDate + "</td>" +
                             "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
                         "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
 
@@ -202,12 +317,22 @@ function pushTable(){
 
                 };
 
-             
+                 var totalAdmin = "";
+
+                for (var i = 0; i < req.length; ++i) {
+                    if (req[i].department == "Adminstrative"){
+                        totalAdmin = +1;
+                    }else{}
+
+                };
+
+              
       
 
 
                 $("#all-results").append(myTableArray);
                 $("#totalUsers").html(req.length);
+                $("#totalAdmin").html(totalAdmin);
 
             });
 };
@@ -231,7 +356,11 @@ function pushTable(){
             pushTable();
     });
 
+$( function() {
+    $( "#startDate" ).datepicker();
+     $("#startDate").datepicker("option", "dateFormat", 'mm/dd/yy');
 
+  } );
 
     $('body').on('click', '#inactivate', function() {
         console.log("Inactivate");
@@ -268,7 +397,7 @@ function pushTable(){
 
         });
 
-        $('#myDialog').on('click', '#create-user', function() {
+        $('#myDialog').on('click', '#submitEndDate', function() {
             bla = $('#myDate').val();
 
 
@@ -306,7 +435,7 @@ function pushTable(){
 
 
 
-    function formValidation(firstname, lastname, email, gender) {
+    function formValidation(firstname, lastname, email, department) {
 
 
 
@@ -345,7 +474,7 @@ function pushTable(){
 
         if ((allLetter(firstname, lastname) == true) && (ValidateEmail(email)) == true) {
             alert("Congrats");
-            addPerson(firstname, lastname, email, gender);
+            addPerson(firstname, lastname, email, department);
         } else { alert("bad"); return false; }
     };
 

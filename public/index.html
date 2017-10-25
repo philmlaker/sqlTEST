@@ -6,9 +6,8 @@
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
- <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="assets/js/jquery-ui.js"></script>
     <!--     <link rel="stylesheet" type="text/css" href="assets/css/testStyle.css"> -->
@@ -17,22 +16,31 @@
     <script src='assets/build/pdfmake.min.js'></script>
     <script src='assets/build/vfs_fonts.js'></script>
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+       
 </head>
 
 <body>
-    
+
+    <!-- Pop-up for when users press the inactivate button -->
+
     <div id="myDialog" title="Input Last Day">
-<p>Enter the employee's last day of employment.</p>
-Enter date: <input type="text" id="myDate" readonly="readonly"/>
-<button id="submitEndDate">Submit</button>
-<button id="close">Cancel</button>
-</div>
+        <p>Enter the employee's last day of employment.</p>
+        Enter date:
+        <input type="text" id="myDate" readonly="readonly" />
+        <button id="submitEndDate">Submit</button>
+        <button id="close">Cancel</button>
+    </div>
+
+  
+    <!-- Input panel for adding new employees -->
 
     <h1>Employee Database</h1>
     <hr>
     <br>
     <form>
-        <h2>Add New Employee</h2> First Name:
+        <h2>Add New Employee</h2> 
+        <br>First Name:
         <input class="input_field" type="text" id="firstName">
         <br> Last Name:
         <input class="input_field" type="text" id="lastName">
@@ -46,9 +54,26 @@ Enter date: <input type="text" id="myDate" readonly="readonly"/>
             <option value="Core">Core</option>
             <option value="Molecular">Molecular</option>
         </select>
+        <br> Position:
+                <select class="input_field" id="position">
+            <option value="" disabled selected>Select position</option>
+            <option>Customer Service Representative</option>
+            <option>Processor</option>
+             <option>Manager</option>
+              <option>Supervisor</option>
+               <option>Director of Projects</option>
+                <option>Medical Director</option>
+                 <option>Controller</option>
+                 <option>Lab</option>
+        </select>
+        <br> Reports To:
+                <select class="input_field" id="reports">
+
+        </select>
+
         <br> Start Date:
         <input class="input_field" type="text" name="startDate" id="startDate" readonly="readonly">
-    <!--      <br> Job Position:
+        <!--      <br> Job Position:
         <input class="input_field" type="text" id="position">
         <br> Apollo Username:
         <input class="input_field" type="text" id="apolloUser">
@@ -69,32 +94,36 @@ Enter date: <input type="text" id="myDate" readonly="readonly"/>
 </fieldset>
         <br>
         <br> -->
-
         <button id="submit">Submit</button>
-             
-    </form> 
+    </form>
     <br>
     <br>
     <br>
     <br>
+
+    <!-- Control panel of buttons -->
+
     <div id="control_panel">
-        <button id="click-all-results">CLICK FOR ALL USERS</button>
+        <button id="click-all-results">All Users</button>
         <button id="createPDF">Create PDF</button>
         <button id="e-mail">Generate E-mail</button>
         <button id="currentEmployees">Only Current Employees</button>
+        <button onclick="window.location.href='charts.html'">Chart Page</button>
     </div>
-    <h3>Total Number of Employees: <span id="totalUsers"></span></h3>
-    <h3>Adminstrative Staff: <span id="totalAdmin"></span></h3>
-    <h3>Analytical Chemistry Staff: <span id="totalAC"></span></h3>
-    <h3>Core Staff: <span id="totalCOR"></span></h3>
-    <h3>Molecular Staff: <span id="totalMOL"></span></h3>
+
+    <!-- Display panel for general overview -->
+
+    <div id="display_panel">
+        <h3>Total Number of Employees: <span id="totalUsers"></span></h3>
+        <h3>Adminstrative Staff: <span id="totalAdmin"></span></h3>
+        <h3>Analytical Chemistry Staff: <span id="totalAC"></span></h3>
+        <h3>Core Staff: <span id="totalCOR"></span></h3>
+        <h3>Molecular Staff: <span id="totalMOL"></span></h3>
+    </div>
+
+     <!-- Display panel for all results -->
     <table id="all-results">
     </table>
-
-
-
-
-
 </body>
 
 </html>

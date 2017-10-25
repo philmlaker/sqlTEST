@@ -90,16 +90,22 @@ app.post('/add', function(req, res) {
         var lastName = req.body.lastName;
         var email = req.body.email;
         var department = req.body.department;
+        var position = req.body.position;
+        var reports = req.body.reports;
+        var startDate = req.body.startDate;
+
         var active = "Active";
 
+        console.log(reports + position + startDate);
      
-        var sql = "INSERT INTO mock_data (first_name, last_name, email, department, active) VALUES ?";
+        var sql = "INSERT INTO mock_data (first_name, last_name, email, department, active, position, reportsTo, startDate) VALUES ?";
         var values = [
-            [firstName, lastName, email, department, active]
+            [firstName, lastName, email, department, active, position, reports, startDate]
         ];
         connection.query(sql, [values], function(err, result) {
             if (err) throw err;
             console.log("Number of records inserted: " + result.affectedRows);
+            console.log(reports + position + startDate);
             res.send();
         });
 

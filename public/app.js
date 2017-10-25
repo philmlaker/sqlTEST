@@ -1,15 +1,29 @@
 $(document).ready(function() {
+    var data = [];
+
+    $.ajax({
+            url: "/allresults",
+            type: 'GET',
+            dataType: 'json',
+        })
+        .done(function(req, res) {
+            for (var i = 0; i < req.length; ++i) {
+                data.push('<option>' + req[i].first_name + " " + req[i].last_name + '</option>');
+
+            };
+
+            $("#reports").html(data);
+
+        });
 
 
 
-
-
-      $("#currentEmployees").click(function(event) {
+    $("#currentEmployees").click(function(event) {
 
         alert("Current Employees Coming Up!");
 
 
-                   $.ajax({
+        $.ajax({
                 url: "/allresults",
                 type: 'GET',
                 dataType: 'json',
@@ -21,7 +35,7 @@ $(document).ready(function() {
 
 
                 var myTableArray = [];
-                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
+                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><th>Position</th><th>Reports To</th><th>Start Date</th><tr>");
 
                 for (var i = 0; i < req.length; ++i) {
 
@@ -40,49 +54,52 @@ $(document).ready(function() {
                     // );
 
 
-                        if (req[i].active == "Active"){
+                    if (req[i].active == "Active") {
                         myTableArray.push(
                             "<tr><td>" + req[i].id + "</td>" +
-                        "<td>" + req[i].first_name + "</td>" +
-                        "<td>" + req[i].last_name + "</td>" +
-                        "<td><a href='mailto:" + req[i].email + "'>" + req[i].email + "</a></td>" +
-                        "<td>" + req[i].department + "</td>" +
-                        "<td>" + req[i].active + "</td>" +
-                         "<td>" + req[i].endDate + "</td>" +
+                            "<td>" + req[i].first_name + "</td>" +
+                            "<td>" + req[i].last_name + "</td>" +
+                            "<td><a href='mailto:" + req[i].email + "'>" + req[i].email + "</a></td>" +
+                            "<td>" + req[i].department + "</td>" +
+                            "<td>" + req[i].active + "</td>" +
+                            "<td>" + req[i].endDate + "</td>" +
+                            "<td>" + req[i].position + "</td>" +
+                            "<td>" + req[i].reportsTo + "</td>" +
+                            "<td>" + req[i].startDate + "</td>" +
                             "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
-                        "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+                            "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
 
-                            );
-                     } else {
+                        );
+                    } else {
 
-                         
-                        
-                     }; 
+
+
+                    };
 
                 };
 
-                 var totalAdmin = "";
-                  var totalAC = "";
-                   var totalCOR = "";
-                    var totalMOL = "";
+                var totalAdmin = "";
+                var totalAC = "";
+                var totalCOR = "";
+                var totalMOL = "";
 
-                    
 
-                for (var i = 0; i < req.length; ++i) 
+
+                for (var i = 0; i < req.length; ++i)
                     if (req[i].active == "Active") {
 
-                            {
-                                if (req[i].department == "Adminstrative"){
-                                    totalAdmin = +1;
-                                }else if (req[i].department == "Analytical Chemistry"){
-                                     totalAC = +1;
-                                }else if (req[i].department == "Core"){
-                                    totalCOR = +1;
-                                }else if (req[i].department == "Molecular"){
-                                    totalMOL = +1;
-                                }
-                            };
-            } else {};
+                        {
+                            if (req[i].department == "Adminstrative") {
+                                totalAdmin = +1;
+                            } else if (req[i].department == "Analytical Chemistry") {
+                                totalAC = +1;
+                            } else if (req[i].department == "Core") {
+                                totalCOR = +1;
+                            } else if (req[i].department == "Molecular") {
+                                totalMOL = +1;
+                            }
+                        };
+                    } else {};
 
 
                 $("#all-results").append(myTableArray);
@@ -112,7 +129,7 @@ $(document).ready(function() {
 
 
 
-      });
+    });
 
     $("#e-mail").click(function(event) {});
 
@@ -176,13 +193,13 @@ $(document).ready(function() {
     });
 
 
-    function addPerson(firstName, lastName, email, department) {
+    function addPerson(firstName, lastName, email, department, position, reports, startDate) {
 
         sendEmail_NewHire(email, firstName, lastName);
 
         $.ajax({
                 url: "/add",
-                data: { firstName: firstName, lastName: lastName, email: email, department: department },
+                data: { firstName: firstName, lastName: lastName, email: email, department: department, position: position, reports: reports, startDate: startDate },
                 type: 'POST',
                 dataType: 'json'
             })
@@ -201,13 +218,17 @@ $(document).ready(function() {
         var email = $("#email").val();
         var department = $("#department").val();
 
+        var position = $("#position").val();
+        var reports = $("#reports").val();
+        var startDate = $("#startDate").val();
+
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         };
         firstName = capitalizeFirstLetter(firstName);
         lastName = capitalizeFirstLetter(lastName);
 
-        formValidation(firstName, lastName, email, department);
+        formValidation(firstName, lastName, email, department, position, reports, startDate);
     });
 
 
@@ -252,9 +273,9 @@ $(document).ready(function() {
     });
 
 
-function pushTable(){
+    function pushTable() {
 
-            $.ajax({
+        $.ajax({
                 url: "/allresults",
                 type: 'GET',
                 dataType: 'json',
@@ -285,49 +306,49 @@ function pushTable(){
                     // );
 
 
-                        if (req[i].active == "Inactive"){
+                    if (req[i].active == "Inactive") {
                         myTableArray.push(
                             "<tr><td>" + req[i].id + "</td>" +
-                        "<td>" + req[i].first_name + "</td>" +
-                        "<td>" + req[i].last_name + "</td>" +
-                        "<td>" + req[i].email + "</td>" +
-                        "<td>" + req[i].department + "</td>" +
-                        "<td>" + req[i].active + "</td>" +
-                         "<td>" + req[i].endDate + "</td>" +
+                            "<td>" + req[i].first_name + "</td>" +
+                            "<td>" + req[i].last_name + "</td>" +
+                            "<td>" + req[i].email + "</td>" +
+                            "<td>" + req[i].department + "</td>" +
+                            "<td>" + req[i].active + "</td>" +
+                            "<td>" + req[i].endDate + "</td>" +
                             "<td><button disabled='true' id=" + "inactivate" + ">Inactivate</button></td>" +
-                        "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+                            "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
 
-                            );
-                     } else {
+                        );
+                    } else {
 
-                         myTableArray.push(
+                        myTableArray.push(
                             "<tr><td>" + req[i].id + "</td>" +
-                        "<td>" + req[i].first_name + "</td>" +
-                        "<td>" + req[i].last_name + "</td>" +
-                        "<td>" + req[i].email + "</td>" +
-                        "<td>" + req[i].department + "</td>" +
-                        "<td>" + req[i].active + "</td>" +
-                        "<td>" + req[i].endDate + "</td>" +
+                            "<td>" + req[i].first_name + "</td>" +
+                            "<td>" + req[i].last_name + "</td>" +
+                            "<td>" + req[i].email + "</td>" +
+                            "<td>" + req[i].department + "</td>" +
+                            "<td>" + req[i].active + "</td>" +
+                            "<td>" + req[i].endDate + "</td>" +
                             "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
-                        "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+                            "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
 
-                            );
-                        
-                     }; 
+                        );
+
+                    };
 
                 };
 
-                 var totalAdmin = "";
+                var totalAdmin = "";
 
                 for (var i = 0; i < req.length; ++i) {
-                    if (req[i].department == "Adminstrative"){
+                    if (req[i].department == "Adminstrative") {
                         totalAdmin = +1;
-                    }else{}
+                    } else {}
 
                 };
 
-              
-      
+
+
 
 
                 $("#all-results").append(myTableArray);
@@ -335,7 +356,7 @@ function pushTable(){
                 $("#totalAdmin").html(totalAdmin);
 
             });
-};
+    };
 
     $('body').on('click', '#delete', function() {
 
@@ -353,14 +374,14 @@ function pushTable(){
         console.log(url_id);
 
 
-            pushTable();
+        pushTable();
     });
 
-$( function() {
-    $( "#startDate" ).datepicker();
-     $("#startDate").datepicker("option", "dateFormat", 'mm/dd/yy');
+    $(function() {
+        $("#startDate").datepicker();
+        $("#startDate").datepicker("option", "dateFormat", 'mm/dd/yy');
 
-  } );
+    });
 
     $('body').on('click', '#inactivate', function() {
         console.log("Inactivate");
@@ -435,7 +456,7 @@ $( function() {
 
 
 
-    function formValidation(firstname, lastname, email, department) {
+    function formValidation(firstname, lastname, email, department, position, reports, startDate) {
 
 
 
@@ -474,7 +495,8 @@ $( function() {
 
         if ((allLetter(firstname, lastname) == true) && (ValidateEmail(email)) == true) {
             alert("Congrats");
-            addPerson(firstname, lastname, email, department);
+            addPerson(firstname, lastname, email, department, position, reports, startDate);
+            console.log(firstname, lastname, email, department, position, reports, startDate);
         } else { alert("bad"); return false; }
     };
 

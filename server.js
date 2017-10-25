@@ -1,3 +1,5 @@
+// CONNECTION INFO
+
 var express = require('express'),
     mysql = require('mysql'),
     path = require('path'),
@@ -9,9 +11,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
-
-
-
 
 module.exports - app;
 
@@ -27,12 +26,21 @@ var connection = mysql.createConnection({
 
 app.use(express.static(__dirname + '/public'));
 
+
+
+
+// GET ALL RESULTS
+
 app.get("/allresults", function(req, res) {
     connection.query('SELECT * FROM mock_data', function(err, rows) {
         console.log(rows);
         if (err) { console.log("Error :" + err) } else { res.send(rows); };
     });
 });
+
+
+
+// DELETE FROM TABLE
 
 
 app.delete("/delete:id?", function(req, res) {
@@ -48,6 +56,8 @@ app.delete("/delete:id?", function(req, res) {
 
 });
 
+// UPDATE EXISITING USER IN THE TABLE
+
 
 app.patch("/update", function(req, res) {
     var id = req.body.id;
@@ -61,53 +71,46 @@ app.patch("/update", function(req, res) {
         if (err) { console.log("Error :" + err) } else {
 
 
-connection.query('UPDATE mock_data SET active="Inactive" WHERE id= ?', [id], function(err, rows) {
-        console.log(rows);
-        if (err) { console.log("Error :" + err) } else { res.send(rows); };
+            connection.query('UPDATE mock_data SET active="Inactive" WHERE id= ?', [id], function(err, rows) {
+                console.log(rows);
+                if (err) { console.log("Error :" + err) } else { res.send(rows); };
+            });
+
+        };
     });
-
-
-
-
-
-         };
-    });
-
-
-    
 
 });
 
 
 
-
+// ADD NEW USER TO TABLE
 
 app.post('/add', function(req, res) {
 
 
-      
-        var firstName = req.body.firstName;
-        var lastName = req.body.lastName;
-        var email = req.body.email;
-        var department = req.body.department;
-        var position = req.body.position;
-        var reports = req.body.reports;
-        var startDate = req.body.startDate;
 
-        var active = "Active";
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+    var email = req.body.email;
+    var department = req.body.department;
+    var position = req.body.position;
+    var reports = req.body.reports;
+    var startDate = req.body.startDate;
 
+    var active = "Active";
+
+    console.log(reports + position + startDate);
+
+    var sql = "INSERT INTO mock_data (first_name, last_name, email, department, active, position, reportsTo, startDate) VALUES ?";
+    var values = [
+        [firstName, lastName, email, department, active, position, reports, startDate]
+    ];
+    connection.query(sql, [values], function(err, result) {
+        if (err) throw err;
+        console.log("Number of records inserted: " + result.affectedRows);
         console.log(reports + position + startDate);
-     
-        var sql = "INSERT INTO mock_data (first_name, last_name, email, department, active, position, reportsTo, startDate) VALUES ?";
-        var values = [
-            [firstName, lastName, email, department, active, position, reports, startDate]
-        ];
-        connection.query(sql, [values], function(err, result) {
-            if (err) throw err;
-            console.log("Number of records inserted: " + result.affectedRows);
-            console.log(reports + position + startDate);
-            res.send();
-        });
+        res.send();
+    });
 
 });
 

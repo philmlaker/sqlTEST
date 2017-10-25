@@ -1,4 +1,8 @@
 $(document).ready(function() {
+
+
+    // GETS ALL EMPLOYEES NAMES FROM DATABASE AND PUTS THEM IN A DROP-DOWN MENU 
+
     var data = [];
 
     $.ajax({
@@ -9,19 +13,16 @@ $(document).ready(function() {
         .done(function(req, res) {
             for (var i = 0; i < req.length; ++i) {
                 data.push('<option>' + req[i].first_name + " " + req[i].last_name + '</option>');
-
             };
-
+          
             $("#reports").html(data);
-
         });
 
 
 
+    // ON CLICK GETS ALL CURRENT EMPLOYESS BE SEARCHING FOR ACTIVE NEXT TO EMPLOYEES' NAME
+
     $("#currentEmployees").click(function(event) {
-
-        alert("Current Employees Coming Up!");
-
 
         $.ajax({
                 url: "/allresults",
@@ -29,30 +30,17 @@ $(document).ready(function() {
                 dataType: 'json',
             })
             .done(function(req, res) {
+                
                 console.log(req);
                 console.log(req.length);
+                
                 $("#all-results").empty();
 
-
                 var myTableArray = [];
+
                 myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><th>Position</th><th>Reports To</th><th>Start Date</th><tr>");
 
                 for (var i = 0; i < req.length; ++i) {
-
-
-                    // myTableArray.push(
-
-                    //     "<tr><td>" + req[i].id + "</td>" +
-                    //     "<td>" + req[i].first_name + "</td>" +
-                    //     "<td>" + req[i].last_name + "</td>" +
-                    //     "<td>" + req[i].email + "</td>" +
-                    //     "<td>" + req[i].department + "</td>" +
-                    //     "<td>" + req[i].active + "</td>" +
-                    //     // "<td>" + req[i].endDate + "</td>" +
-                    //     // "<td><button disabled='true' id=" + "inactivate" + ">Inactivate</button></td>" +
-                    //     // "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-                    // );
-
 
                     if (req[i].active == "Active") {
                         myTableArray.push(
@@ -68,15 +56,13 @@ $(document).ready(function() {
                             "<td>" + req[i].startDate + "</td>" +
                             "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
                             "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-
                         );
                     } else {
-
-
-
-                    };
+                        // Do nothing
+                        };
 
                 };
+
 
                 var totalAdmin = "";
                 var totalAC = "";
@@ -84,10 +70,8 @@ $(document).ready(function() {
                 var totalMOL = "";
 
 
-
                 for (var i = 0; i < req.length; ++i)
                     if (req[i].active == "Active") {
-
                         {
                             if (req[i].department == "Adminstrative") {
                                 totalAdmin = +1;
@@ -99,8 +83,9 @@ $(document).ready(function() {
                                 totalMOL = +1;
                             }
                         };
-                    } else {};
-
+                    } else {
+                        // Do nothing
+                    };
 
                 $("#all-results").append(myTableArray);
                 $("#totalUsers").html(req.length);
@@ -111,87 +96,74 @@ $(document).ready(function() {
 
             });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     });
 
-    $("#e-mail").click(function(event) {});
 
+    // SENDS E-MAIL TO NEW EMPLOYEE - NOT SETUP YET
 
-    function sendEmail_NewHire(email, firstname, lastname) {
-        alert("Test email");
-        var omni_Id = firstname.charAt(0) + lastname;
-        omni_Id = omni_Id.toLowerCase();
-        console.log(omni_Id);
-        // parameters: service_id, template_id, template_parameters
-        // emailjs.send("default_service", "template_pNljs1L2", { omni_Id: omni_Id, to_name: "Brooklyn", send_to: "philmlaker@gmail.com" });
+    // function sendEmail_NewHire(email, firstname, lastname) {
+    //     alert("Test email");
+    //     var omni_Id = firstname.charAt(0) + lastname;
+    //     omni_Id = omni_Id.toLowerCase();
+    //     console.log(omni_Id);
+    //     // parameters: service_id, template_id, template_parameters
+    //     // emailjs.send("default_service", "template_pNljs1L2", { omni_Id: omni_Id, to_name: "Brooklyn", send_to: "philmlaker@gmail.com" });
 
-    };
-
-
-    $("#createPDF").click(function(event) {
-        console.log("create PDF b");
-        var column = [];
-        var firstName = [];
-        var lastName = [];
-        var docDefinition = {};
-        var body = [];
+    // };
 
 
 
+    // CREATES PDF OF USERS - NOT SETUP YET
 
-        $.ajax({
-                url: "/allresults",
-                type: 'GET',
-                dataType: 'json',
-            })
-            .done(function(req, res) {
-                console.log(res);
-                column.push({ text: "First Name" });
-
-                for (var i = 0; i < req.length; ++i) {
-                    console.log(req[i].first_name);
-                    firstName.push(req[i].first_name);
-                    lastName.push(req[i].last_name);
-                };
+    // $("#createPDF").click(function(event) {
+    //     console.log("create PDF b");
+    //     var column = [];
+    //     var firstName = [];
+    //     var lastName = [];
+    //     var docDefinition = {};
+    //     var body = [];
 
 
 
 
-                docDefinition = {
-                    content: [
+    //     $.ajax({
+    //             url: "/allresults",
+    //             type: 'GET',
+    //             dataType: 'json',
+    //         })
+    //         .done(function(req, res) {
+    //             console.log(res);
+    //             column.push({ text: "First Name" });
 
-                        {
-                            style: 'tableExample',
-                            table: {
-                                body: [
-                                    ["First Name", "Last Name"],
-                                    [firstName, lastName]
-                                ]
-                            }
-                        }
-                    ]
-                };
-                pdfMake.createPdf(docDefinition).open();
-            });
-    });
+    //             for (var i = 0; i < req.length; ++i) {
+    //                 console.log(req[i].first_name);
+    //                 firstName.push(req[i].first_name);
+    //                 lastName.push(req[i].last_name);
+    //             };
 
+
+
+
+    //             docDefinition = {
+    //                 content: [
+
+    //                     {
+    //                         style: 'tableExample',
+    //                         table: {
+    //                             body: [
+    //                                 ["First Name", "Last Name"],
+    //                                 [firstName, lastName]
+    //                             ]
+    //                         }
+    //                     }
+    //                 ]
+    //             };
+    //             pdfMake.createPdf(docDefinition).open();
+    //         });
+    // });
+
+
+    // FUNCTION THAT INPUTS A NEW USERS TO THE DATABASE
 
     function addPerson(firstName, lastName, email, department, position, reports, startDate) {
 
@@ -204,20 +176,22 @@ $(document).ready(function() {
                 dataType: 'json'
             })
             .done(function(req, res) {
+              
                 console.log("complete, from app.js");
 
             });
+    };
 
-    }
 
+    // ON CLICKING SUBMIT - GRAP INPUT AND VALIDATE
 
     $("#submit").click(function(event) {
         event.preventDefault();
+
         var firstName = $("#firstName").val();
         var lastName = $("#lastName").val();
         var email = $("#email").val();
         var department = $("#department").val();
-
         var position = $("#position").val();
         var reports = $("#reports").val();
         var startDate = $("#startDate").val();
@@ -225,54 +199,60 @@ $(document).ready(function() {
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         };
+
         firstName = capitalizeFirstLetter(firstName);
+
         lastName = capitalizeFirstLetter(lastName);
 
         formValidation(firstName, lastName, email, department, position, reports, startDate);
     });
 
 
-    $("#click-all-results").click(function() {
-        alert("All Results Coming Up!");
-        pushTable();
-        // $.ajax({
-        //         url: "/allresults",
-        //         type: 'GET',
-        //         dataType: 'json',
-        //     })
-        //     .done(function(req, res) {
-        //         console.log(req);
-        //         console.log(req.length);
-        //         $("#all-results").empty();
 
 
-        //         var myTableArray = [];
-        //         myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
+    // GET ALL RESULTS (ACTIVE AND INACTIVE USERS)
 
-        //         for (var i = 0; i < req.length; ++i) {
-        //             myTableArray.push(
-
-        //                 "<tr><td>" + req[i].id + "</td>" +
-        //                 "<td>" + req[i].first_name + "</td>" +
-        //                 "<td>" + req[i].last_name + "</td>" +
-        //                 "<td>" + req[i].email + "</td>" +
-        //                 "<td>" + req[i].department + "</td>" +
-        //                 "<td>" + req[i].active + "</td>" +
-        //                 "<td>" + req[i].endDate + "</td>" +
-        //                 "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
-        //                 "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-        //             );
-
-        //         };
+    // $("#click-all-results").click(function() {
+    //     alert("All Results Coming Up!");
+    //     pushTable();
+    //     // $.ajax({
+    //     //         url: "/allresults",
+    //     //         type: 'GET',
+    //     //         dataType: 'json',
+    //     //     })
+    //     //     .done(function(req, res) {
+    //     //         console.log(req);
+    //     //         console.log(req.length);
+    //     //         $("#all-results").empty();
 
 
-        //         $("#all-results").append(myTableArray);
-        //         $("#totalUsers").html(req.length);
+    //     //         var myTableArray = [];
+    //     //         myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
 
-        //     });
-    });
+    //     //         for (var i = 0; i < req.length; ++i) {
+    //     //             myTableArray.push(
+
+    //     //                 "<tr><td>" + req[i].id + "</td>" +
+    //     //                 "<td>" + req[i].first_name + "</td>" +
+    //     //                 "<td>" + req[i].last_name + "</td>" +
+    //     //                 "<td>" + req[i].email + "</td>" +
+    //     //                 "<td>" + req[i].department + "</td>" +
+    //     //                 "<td>" + req[i].active + "</td>" +
+    //     //                 "<td>" + req[i].endDate + "</td>" +
+    //     //                 "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
+    //     //                 "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+    //     //             );
+
+    //     //         };
 
 
+    //     //         $("#all-results").append(myTableArray);
+    //     //         $("#totalUsers").html(req.length);
+
+    //     //     });
+    // });
+
+    // PUSH TABLE TO HTML
     function pushTable() {
 
         $.ajax({
@@ -283,28 +263,14 @@ $(document).ready(function() {
             .done(function(req, res) {
                 console.log(req);
                 console.log(req.length);
+                
                 $("#all-results").empty();
 
+                 var myTableArray = [];
 
-                var myTableArray = [];
                 myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
 
                 for (var i = 0; i < req.length; ++i) {
-
-
-                    // myTableArray.push(
-
-                    //     "<tr><td>" + req[i].id + "</td>" +
-                    //     "<td>" + req[i].first_name + "</td>" +
-                    //     "<td>" + req[i].last_name + "</td>" +
-                    //     "<td>" + req[i].email + "</td>" +
-                    //     "<td>" + req[i].department + "</td>" +
-                    //     "<td>" + req[i].active + "</td>" +
-                    //     // "<td>" + req[i].endDate + "</td>" +
-                    //     // "<td><button disabled='true' id=" + "inactivate" + ">Inactivate</button></td>" +
-                    //     // "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-                    // );
-
 
                     if (req[i].active == "Inactive") {
                         myTableArray.push(
@@ -347,10 +313,6 @@ $(document).ready(function() {
 
                 };
 
-
-
-
-
                 $("#all-results").append(myTableArray);
                 $("#totalUsers").html(req.length);
                 $("#totalAdmin").html(totalAdmin);
@@ -358,23 +320,21 @@ $(document).ready(function() {
             });
     };
 
+    // UPON CLICKING THE DELETE BUTTON NEXT TO A USERS' NAME, DELETE THE USER FROM THE DATABASE - COMPLETELY EREASES THEM
+
+
     $('body').on('click', '#delete', function() {
 
 
         var $row = $(this).closest('tr');
         var $columns = $row.find('td');
-
         var firstName = $columns[2].innerHTML;
-
-        // console.log($columns[2].innerHTML);
-        // console.log($columns[1].innerHTML);
-
         var url_id = "/delete" + firstName;
 
         console.log(url_id);
 
-
         pushTable();
+
     });
 
     $(function() {
@@ -383,8 +343,13 @@ $(document).ready(function() {
 
     });
 
+
+
+    // UPON CLICKING THE INACTIVE BUTTON NEXT TO A USERS' NAME, SET THEM TO INACTIVATE
+
+
     $('body').on('click', '#inactivate', function() {
-        console.log("Inactivate");
+
 
         var $row = $(this).closest('tr');
         var $columns = $row.find('td');
@@ -413,26 +378,18 @@ $(document).ready(function() {
 
         });
 
+
         $('#myDialog').on('click', '#close', function() {
             $('#myDialog').dialog("close")
 
         });
 
+
         $('#myDialog').on('click', '#submitEndDate', function() {
             bla = $('#myDate').val();
 
-
-
             console.log("from this" + bla);
             $('#myDialog').dialog("close")
-
-
-
-
-
-
-            console.log(id + bla);
-
 
             $.ajax({
                     url: "/update",
@@ -441,20 +398,17 @@ $(document).ready(function() {
                     dataType: 'json',
                 })
                 .done(function(req, res) {
-                    pushTable();
 
+                    pushTable();
 
                 });
 
-
-
         });
-
 
     });
 
 
-
+    // MAIN FUNCTION THAT VALIDATES THE INPUT FROM THE USER
 
     function formValidation(firstname, lastname, email, department, position, reports, startDate) {
 
@@ -499,10 +453,5 @@ $(document).ready(function() {
             console.log(firstname, lastname, email, department, position, reports, startDate);
         } else { alert("bad"); return false; }
     };
-
-
-
-
-
 
 });

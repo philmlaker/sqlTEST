@@ -35,10 +35,44 @@
   
     <!-- Input panel for adding new employees -->
 
-    <h1>Employee Database</h1>
+    <h1>Sonic Reference Laboratory - Quality Dashboard</h1>
     <hr>
+
+
     <br>
-    <form>
+
+        <!-- Display panel for general overview -->
+    <div id="buttonContainer">
+         <div id="control_panel">
+        <button id="click-all-results">All Users</button>
+<!--         <button id="createPDF">Create PDF</button>
+        <button id="e-mail">Generate E-mail</button> -->
+        <button id="currentEmployees">Current Employees</button>
+        <button onclick="window.location.href='charts.html'">Chart Page</button>
+        <button onclick="window.location.href='charts.html'">Analytical Chemistry Org Chart</button>
+        <button onclick="window.location.href='charts.html'">Core Org Chart</button>
+        <button onclick="window.location.href='charts.html'">Molecular Org Chart</button>
+    </div>
+</div>
+
+    <div id="topContainer">
+    <div id="display_panel">
+         <h2>Staffing Overview</h2> 
+        <p>Total Number of Employees: <span id="totalUsers"></span></p>
+        <p>Adminstrative Staff: <span id="totalAdmin"></span></p>
+        <p>Analytical Chemistry Staff: <span id="totalAC"></span></p>
+        <p>Core Staff: <span id="totalCOR"></span></p>
+        <p>Molecular Staff: <span id="totalMOL"></span></p>
+         <h2>Safety Overview</h2> 
+         <p>Number of Safety Issues for Q1 </p>
+         <p>Number of Safety Issues for Q2 </p>
+         <p>Number of Safety Issues for Q3 </p>
+         <h2>Proficiency Testing Tracking</h2> 
+    </div>
+  
+    
+
+    <form id="form">
         <h2>Add New Employee</h2> 
         <br>First Name:
         <input class="input_field" type="text" id="firstName">
@@ -96,30 +130,14 @@
         <br> -->
         <button id="submit">Submit</button>
     </form>
-    <br>
-    <br>
-    <br>
-    <br>
+</div>
+
 
     <!-- Control panel of buttons -->
 
-    <div id="control_panel">
-        <button id="click-all-results">All Users</button>
-<!--         <button id="createPDF">Create PDF</button>
-        <button id="e-mail">Generate E-mail</button> -->
-        <button id="currentEmployees">Current Employees</button>
-        <button onclick="window.location.href='charts.html'">Chart Page</button>
-    </div>
+   
 
-    <!-- Display panel for general overview -->
 
-    <div id="display_panel">
-        <h3>Total Number of Employees: <span id="totalUsers"></span></h3>
-        <h3>Adminstrative Staff: <span id="totalAdmin"></span></h3>
-        <h3>Analytical Chemistry Staff: <span id="totalAC"></span></h3>
-        <h3>Core Staff: <span id="totalCOR"></span></h3>
-        <h3>Molecular Staff: <span id="totalMOL"></span></h3>
-    </div>
 
      <!-- Display panel for all results -->
     <table id="all-results">

@@ -12,14 +12,15 @@ $(document).ready(function() {
             .done(function(req, res) {
         	console.log(req);
 
-        		for (var i = 0; i < 8; i++) {
+        		for (var i = 0; i < req.length; i++) {
         		
         			var array =[];
         			
+                    var fullName = req[i].first_name + " " + req[i].last_name;
         			// console.log(req[i].first_name);
 
-        			array.push({v: req[i].first_name, f: req[i].first_name + "<div>" + req[i].department + "</div>"});
-        			array.push("Anthony Carter");
+        			array.push({v: fullName, f: fullName + "<div style='color:red;font-style:italic'>" + req[i].department + "</div>"});
+        			array.push(req[i].reportsTo);
 
         			orgChart.push(array);
 

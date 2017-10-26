@@ -167,7 +167,9 @@ $(document).ready(function() {
 
     function addPerson(firstName, lastName, email, department, position, reports, startDate) {
 
-        sendEmail_NewHire(email, firstName, lastName);
+        // sendEmail_NewHire(email, firstName, lastName);
+
+        console.log(reports);
 
         $.ajax({
                 url: "/add",

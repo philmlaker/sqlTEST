@@ -1,5 +1,80 @@
 $(document).ready(function() {
 
+    homePageDisplay();
+
+     $("#personnelRoster").click(function(event) {
+        event.preventDefault();
+         homePageDisplay();
+
+    });
+
+
+
+     $("#PT").click(function(event) {
+        console.log("test");
+       
+         $("#all-results").empty();
+          $.ajax({
+                url: "/ptallresults",
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function(req, res) {
+                
+
+  
+               
+
+
+            var myTableArray = [];
+                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
+
+                for (var i = 0; i < req.length; ++i) {
+                     
+                     var dateTest = new Date(req[i].ship_date);
+                     console.log("this the a date test" + dateTest);
+                     var today = new Date();
+
+                     if (dateTest > today){
+                        console.log("dugh")
+                     }else{ console.log("sdf")};
+  
+
+
+                    myTableArray.push(
+
+                        "<tr><td>" + req[i].id + "</td>" +
+                        "<td>" + req[i].department + "</td>" +
+                        "<td>" + req[i].program + "</td>" +
+                        "<td>" + req[i].product + "</td>" +
+                        "<td>" + req[i].ordernum + "</td>" +
+                        "<td>" + req[i].ship_date + "</td>" +
+                        "<td>" + req[i].date_recd + "</td>"
+                    );
+
+                };
+
+
+                $("#all-results").append(myTableArray);
+                $("#totalUsers").html(req.length);
+
+            });
+
+
+            });
+
+
+   $("#all-results").on('click','tr',function(e){
+    e.preventDefault();
+    var $row = $(this).closest('tr');
+        var $columns = $row.find('td');
+        var firstname = $columns[1].innerHTML;
+        var lastname = $columns[2].innerHTML;
+        $('#detailResults').html(firstname + " " + lastname);
+
+
+}); 
+
 
     // GETS ALL EMPLOYEES NAMES FROM DATABASE AND PUTS THEM IN A DROP-DOWN MENU 
 
@@ -39,24 +114,59 @@ $(document).ready(function() {
 
                 var myTableArray = [];
 
-                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><th>Position</th><th>Reports To</th><th>Start Date</th><tr>");
+                myTableArray.push("<tr><th >Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><th>Position</th><th>Start Date</th><th>Degree</th><th>License</th><th>Inactivate</th><tr>");
 
                 for (var i = 0; i < req.length; ++i) {
 
                     if (req[i].active == "Active") {
+
+                            if(req[i].license == null){
+                                var empty = "-";
+                                req[i].license = empty;
+
+                            } else{};
+
+                             if (req[i].endDate == null){
+                                var empty = "-";
+                                req[i].endDate = empty;
+
+                            }else{}
+
+                            if (req[i].startDate == null){
+                                var empty = "-";
+                                req[i].startDate = empty;
+
+                            }else{}; 
+
+                            if (req[i].reportsTo == null){
+                                var empty = "-";
+                                req[i].reportsTo = empty;
+
+                            }else{};
+                        
+                            if(req[i].department == "Core"){
+                                var firstLine =  "<tr class='green'><td>" + req[i].id + "</td>";
+
+                            }else if (req[i].department == "Analytical Chemistry"){ var firstLine =  "<tr class='orange'><td>" + req[i].id + "</td>"}
+                            else if (req[i].department == "Molecular"){ var firstLine =  "<tr class='purple'><td>" + req[i].id + "</td>"}
+                            else if (req[i].department == "Administrative"){ var firstLine =  "<tr class='blue'><td>" + req[i].id + "</td>"}
+                            else{var firstLine =  "<tr ><td>" + req[i].id + "</td>"};
+
+                        
+
                         myTableArray.push(
-                            "<tr><td>" + req[i].id + "</td>" +
+                            firstLine +
                             "<td>" + req[i].first_name + "</td>" +
                             "<td>" + req[i].last_name + "</td>" +
                             "<td><a href='mailto:" + req[i].email + "'>" + req[i].email + "</a></td>" +
                             "<td>" + req[i].department + "</td>" +
-                            "<td>" + req[i].active + "</td>" +
+                            "<td class='green'>" + req[i].active + "</td>" +
                             "<td>" + req[i].endDate + "</td>" +
                             "<td>" + req[i].position + "</td>" +
-                            "<td>" + req[i].reportsTo + "</td>" +
                             "<td>" + req[i].startDate + "</td>" +
-                            "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
-                            "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
+                            "<td>" + req[i].degree + "</td>" +
+                            "<td>" + req[i].license + "</td>" +
+                            "<td><button id=" + "inactivate" + ">Inactivate</button></td></tr>"
                         );
                     } else {
                         // Do nothing
@@ -65,28 +175,53 @@ $(document).ready(function() {
                 };
 
 
-                var totalAdmin = "";
-                var totalAC = "";
-                var totalCOR = "";
-                var totalMOL = "";
+                var totalAdmin = 0;
+                var totalAC = 0;
+                var totalCOR = 0;
+                var totalMOL = 0;
+                var totalPRE = 0;
+                var totalCUS = 0;
 
 
                 for (var i = 0; i < req.length; ++i)
                     if (req[i].active == "Active") {
                         {
-                            if (req[i].department == "Adminstrative") {
-                                totalAdmin = +1;
+                            if (req[i].department == "Administrative") {
+                                totalAdmin +=1;
                             } else if (req[i].department == "Analytical Chemistry") {
-                                totalAC = +1;
+                                totalAC +=1;
                             } else if (req[i].department == "Core") {
-                                totalCOR = +1;
+                                totalCOR +=1;
                             } else if (req[i].department == "Molecular") {
-                                totalMOL = +1;
+                                totalMOL +=1;
+                            }
+                            else if (req[i].department == "Pre-Analytical") {
+                                totalPRE +=1;
+                            }
+                             else if (req[i].department == "Customer Service") {
+                                totalCUS +=1;
                             }
                         };
                     } else {
                         // Do nothing
                     };
+
+
+                 function getObjWithKey(myArray, key){
+                   var retVal;
+                   $.each(myArray, function(index, obj) {
+                       if(key != undefined && obj[key]){
+                           retVal = obj;
+                           return false;
+                       }
+                   });
+                   return retVal;        
+                };
+
+                getObjWithKey(myTableArray,null);
+
+
+
 
                 $("#all-results").append(myTableArray);
                 $("#totalUsers").html(req.length);
@@ -94,17 +229,16 @@ $(document).ready(function() {
                 $("#totalAC").html(totalAC);
                 $("#totalCOR").html(totalCOR);
                 $("#totalMOL").html(totalMOL);
+                $("#totalPRE").html(totalPRE);
+                $("#totalCUS").html(totalCUS);
 
             });
+
+
+
         };
 
 
-homePageDisplay();
-
-
- $("#currentEmployees").click(function(event) {
-    homePageDisplay();
-    });
 
 
     // SENDS E-MAIL TO NEW EMPLOYEE - NOT SETUP YET
@@ -173,7 +307,7 @@ homePageDisplay();
 
     // FUNCTION THAT INPUTS A NEW USERS TO THE DATABASE
 
-    function addPerson(firstName, lastName, email, department, position, reports, startDate) {
+    function addPerson(firstName, lastName, email, department, position, reports, startDate, degree, license) {
 
         // sendEmail_NewHire(email, firstName, lastName);
 
@@ -181,7 +315,7 @@ homePageDisplay();
 
         $.ajax({
                 url: "/add",
-                data: { firstName: firstName, lastName: lastName, email: email, department: department, position: position, reports: reports, startDate: startDate },
+                data: { firstName: firstName, lastName: lastName, email: email, department: department, position: position, reports: reports, startDate: startDate, degree:degree, license:license },
                 type: 'POST',
                 dataType: 'json'
             })
@@ -205,6 +339,8 @@ homePageDisplay();
         var position = $("#position").val();
         var reports = $("#reports").val();
         var startDate = $("#startDate").val();
+        var degree = $("#degree").val();
+        var license = $("#license").val();
 
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -262,73 +398,7 @@ homePageDisplay();
     //     //     });
     // });
 
-    // PUSH TABLE TO HTML
-    function pushTable() {
 
-        $.ajax({
-                url: "/allresults",
-                type: 'GET',
-                dataType: 'json',
-            })
-            .done(function(req, res) {
-                console.log(req);
-                console.log(req.length);
-                
-                $("#all-results").empty();
-
-                 var myTableArray = [];
-
-                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
-
-                for (var i = 0; i < req.length; ++i) {
-
-                    if (req[i].active == "Inactive") {
-                        myTableArray.push(
-                            "<tr><td>" + req[i].id + "</td>" +
-                            "<td>" + req[i].first_name + "</td>" +
-                            "<td>" + req[i].last_name + "</td>" +
-                            "<td>" + req[i].email + "</td>" +
-                            "<td>" + req[i].department + "</td>" +
-                            "<td>" + req[i].active + "</td>" +
-                            "<td>" + req[i].endDate + "</td>" +
-                            "<td><button disabled='true' id=" + "inactivate" + ">Inactivate</button></td>" +
-                            "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-
-                        );
-                    } else {
-
-                        myTableArray.push(
-                            "<tr><td>" + req[i].id + "</td>" +
-                            "<td>" + req[i].first_name + "</td>" +
-                            "<td>" + req[i].last_name + "</td>" +
-                            "<td>" + req[i].email + "</td>" +
-                            "<td>" + req[i].department + "</td>" +
-                            "<td>" + req[i].active + "</td>" +
-                            "<td>" + req[i].endDate + "</td>" +
-                            "<td><button id=" + "inactivate" + ">Inactivate</button></td>" +
-                            "<td><button id=" + "delete" + ">DELETE</button></td></tr>"
-
-                        );
-
-                    };
-
-                };
-
-                var totalAdmin = "";
-
-                for (var i = 0; i < req.length; ++i) {
-                    if (req[i].department == "Adminstrative") {
-                        totalAdmin = +1;
-                    } else {}
-
-                };
-
-                $("#all-results").append(myTableArray);
-                $("#totalUsers").html(req.length);
-                $("#totalAdmin").html(totalAdmin);
-
-            });
-    };
 
     // UPON CLICKING THE DELETE BUTTON NEXT TO A USERS' NAME, DELETE THE USER FROM THE DATABASE - COMPLETELY EREASES THEM
 
@@ -499,7 +569,7 @@ function sortTable(n) {
 
     // MAIN FUNCTION THAT VALIDATES THE INPUT FROM THE USER
 
-    function formValidation(firstname, lastname, email, department, position, reports, startDate) {
+    function formValidation(firstname, lastname, email, department, position, reports, startDate, degree, license) {
 
 
 
@@ -538,9 +608,12 @@ function sortTable(n) {
 
         if ((allLetter(firstname, lastname) == true) && (ValidateEmail(email)) == true) {
             alert("Congrats");
-            addPerson(firstname, lastname, email, department, position, reports, startDate);
+            addPerson(firstname, lastname, email, department, position, reports, startDate, degree, license);
             console.log(firstname, lastname, email, department, position, reports, startDate);
         } else { alert("bad"); return false; }
     };
+
+
+
 
 });

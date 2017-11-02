@@ -3,88 +3,119 @@
 @lightGrey: lighten(@mediumColor, 10%);
 @basicBorder: 1px solid black;
 
-body{
-	background-color: @lightGrey;
+
+
+body {
+    background-color: @lightGrey;
 }
 
 table {
-    background-color:@darkColor;
+    background-color: @darkColor;
     text-align: left;
-	border-collapse: collapse;
-
-
+    border-collapse: collapse;
 }
 
-th,td{
-	border: 1px solid @mediumColor;
+th,
+td {
+    border: 1px solid @mediumColor;
 }
 
-th{
-	color: white;
+th {
+    color: white;
 }
 
-button{
-	margin: 5px 5px;
+button {
+    margin: 5px 5px;
 }
 
-tr:hover{
-	background-color: @lightGrey;
+tr:hover {
+    background-color: @lightGrey;
 }
 
 form {
-	border: @basicBorder;
-	margin: 5px 5px;
-	padding: 15px 30px;
-	width: 25%;
-	height: 600px;
+    border: @basicBorder;
+    margin: 5px 5px;
+    padding: 15px 30px;
+    width: 25%;
+    height: 700px;
 }
 
-.input_field{
-	margin: 5px 5px;
-	width: 100%;
-	margin-bottom: 20px;
-
+.input_field {
+    margin: 5px 5px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 #submit {
-	margin-top: 20px;
-	float: right;
+    margin-top: 20px;
+    float: right;
 }
 
-#control_panel{
-	border: @basicBorder;
-	margin: 5px 5px;
-	padding: 15px 30px;
+#control_panel {
+    border: @basicBorder;
+    margin: 5px 5px;
+    padding: 15px 30px;
 }
 
-#myDialog { display: none; }
+#myDialog {
+    display: none;
+}
 
 #dummyDate {
     opacity: 0;
     position: absolute;
     top: 0;
-    left: 0;    
+    left: 0;
 }
 
-#display_panel{
-	border: @basicBorder;
-	background-color: @darkColor;
-margin: 5px 5px;
-	padding: 15px 30px;
-	width: 25%;
+#display_panel {
+    border: @basicBorder;
+    background-color: @darkColor;
+    margin: 5px 5px;
+    padding: 15px 30px; // width: 25%;
 }
 
-#all-results{
-	margin: 5px 5px;
-	padding: 15px 30px;
+#all-results {
+    margin: 5px 5px;
+    padding: 15px 30px;
 }
 
 #form {
-	
-	width: 25%;
+
+    // width: 25%;
 }
 
-#topContainer{
-	display:flex;
-	flex-direction: row;
+#topContainer {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.green {
+    background: (lighten(green, 60%));
+}
+
+.orange {
+    background-color: (lighten(orange, 30%));
+}
+
+.blue {
+    background-color: (lighten(blue, 30%))e;
+}
+
+.purple {
+    background-color: (lighten(purple, 30%));
+}
+
+#details {
+    border: @basicBorder;
+    margin: 5px 5px;
+    padding: 15px 30px; // width: 25%;
+    height: 700px;
+}
+
+#tableContainer{
+	display: inline-flex;
+    justify-content: center;
+    width: 100%;
 }

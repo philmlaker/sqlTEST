@@ -16,14 +16,10 @@
     <script src='assets/build/pdfmake.min.js'></script>
     <script src='assets/build/vfs_fonts.js'></script>
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-
-       
 </head>
 
 <body>
-
     <!-- Pop-up for when users press the inactivate button -->
-
     <div id="myDialog" title="Input Last Day">
         <p>Enter the employee's last day of employment.</p>
         Enter date:
@@ -31,83 +27,87 @@
         <button id="submitEndDate">Submit</button>
         <button id="close">Cancel</button>
     </div>
-
-  
     <!-- Input panel for adding new employees -->
-
-    <h1>Sonic Reference Laboratory - Quality Dashboard</h1>
+    <h1>Quality Dashboard</h1>
     <hr>
-
-
     <br>
-
-        <!-- Display panel for general overview -->
+    <!-- Display panel for general overview -->
     <div id="buttonContainer">
-         <div id="control_panel">
-        <button id="click-all-results">All Users</button>
-<!--         <button id="createPDF">Create PDF</button>
+        <div id="control_panel">
+            <button id="personnelRoster">Personnel Roster</button>
+             <button id="PT">Proficiency Testing</button>
+            <!--         <button id="createPDF">Create PDF</button>
         <button id="e-mail">Generate E-mail</button> -->
-        <button id="currentEmployees">Current Employees</button>
-        <button onclick="window.location.href='charts.html'">Chart Page</button>
-        <button onclick="window.location.href='charts.html'">Analytical Chemistry Org Chart</button>
-        <button onclick="window.location.href='charts.html'">Core Org Chart</button>
-        <button onclick="window.location.href='charts.html'">Molecular Org Chart</button>
-    </div>
-</div>
 
+            <button onclick="window.location.href='charts.html'">Chart Page</button>
+        </div>
+    </div>
     <div id="topContainer">
-    <div id="display_panel">
-         <h2>Staffing Overview</h2> 
-        <p>Total Number of Employees: <span id="totalUsers"></span></p>
-        <p>Adminstrative Staff: <span id="totalAdmin"></span></p>
-        <p>Analytical Chemistry Staff: <span id="totalAC"></span></p>
-        <p>Core Staff: <span id="totalCOR"></span></p>
-        <p>Molecular Staff: <span id="totalMOL"></span></p>
-         <h2>Safety Overview</h2> 
-         <p>Number of Safety Issues for Q1 </p>
-         <p>Number of Safety Issues for Q2 </p>
-         <p>Number of Safety Issues for Q3 </p>
-         <h2>Proficiency Testing Tracking</h2> 
-    </div>
-  
-    
-
-    <form id="form">
-        <h2>Add New Employee</h2> 
-        <br>First Name:
-        <input class="input_field" type="text" id="firstName">
-        <br> Last Name:
-        <input class="input_field" type="text" id="lastName">
-        <br> E-mail:
-        <input class="input_field" type="text" id="email">
-        <br> Department:
-        <select class="input_field" id="department">
-            <option value="" disabled selected>Select department</option>
-            <option value="Adminstrative">Adminstrative</option>
-            <option value="Analytical Chemistry">Analytical Chemistry</option>
-            <option value="Core">Core</option>
-            <option value="Molecular">Molecular</option>
-        </select>
-        <br> Position:
-                <select class="input_field" id="position">
-            <option value="" disabled selected>Select position</option>
-            <option>Customer Service Representative</option>
-            <option>Processor</option>
-             <option>Manager</option>
-              <option>Supervisor</option>
-               <option>Director of Projects</option>
-                <option>Medical Director</option>
-                 <option>Controller</option>
-                 <option>Lab</option>
-        </select>
-        <br> Reports To:
-                <select class="input_field" id="reports">
-
-        </select>
-
-        <br> Start Date:
-        <input class="input_field" type="text" name="startDate" id="startDate" readonly="readonly">
-        <!--      <br> Job Position:
+        <div id="display_panel">
+            <h2>Staffing Overview</h2>
+            <p>Total Number of Employees: <span id="totalUsers"></span></p>
+            <p>Adminstrative Staff: <span id="totalAdmin"></span></p>
+            <p>Analytical Chemistry Staff: <span id="totalAC"></span></p>
+            <p>Core Staff: <span id="totalCOR"></span></p>
+            <p>Molecular Staff: <span id="totalMOL"></span></p>
+            <p>Pre-Analytical Staff: <span id="totalPRE"></span></p>
+            <p>Customer Service Staff: <span id="totalCUS"></span></p>
+            <h2>Safety Overview</h2>
+            <p>Number of Safety Issues for Q1 </p>
+            <p>Number of Safety Issues for Q2 </p>
+            <p>Number of Safety Issues for Q3 </p>
+            <h2>Proficiency Testing Tracking</h2>
+        </div>
+        <form id="form">
+            <h2>Add New Employee</h2>
+            <br>First Name:
+            <input class="input_field" type="text" id="firstName">
+            <br> Last Name:
+            <input class="input_field" type="text" id="lastName">
+            <br> E-mail:
+            <input class="input_field" type="text" id="email">
+            <br> Department:
+            <select class="input_field" id="department">
+                <option value="" disabled selected>Select department</option>
+                <option value="Adminstrative">Adminstrative</option>
+                <option value="Analytical Chemistry">Analytical Chemistry</option>
+                <option value="Core">Core</option>
+                <option value="Molecular">Molecular</option>
+            </select>
+            <br> Position:
+            <select class="input_field" id="position">
+                <option value="" disabled selected>Select position</option>
+                <option> Analytics and Implementation Manager </option>
+                <option> Associate Technical Director </option>
+                <option> Business Application Analyst I </option>
+                <option> Controller </option>
+                <option> Customer Service Representative </option>
+                <option> Director of Operations </option>
+                <option> Director of Projects </option>
+                <option> Lab Assistant </option>
+                <option> Manager </option>
+                <option> Medical Director </option>
+                <option> President </option>
+                <option> Processor </option>
+                <option> Quality Coordinator </option>
+                <option> Quality Manager </option>
+                <option> R&D Scientist </option>
+                <option> Supervisor </option>
+                <option> Team Lead </option>
+                <option> Technical Director </option>
+                <option> Testing Personnel </option>
+                <option> Vice President of Sales and Marketing </option>
+            </select>
+            <br> Reports To:
+            <select class="input_field" id="reports">
+            </select>
+            <br> Start Date:
+            <input class="input_field" type="text" name="startDate" id="startDate" readonly="readonly">
+               <br> Degree:
+             <input class="input_field" type="text" id="degree">
+             <br> License:
+             <input class="input_field" type="text" id="license">
+            <!--      <br> Job Position:
         <input class="input_field" type="text" id="position">
         <br> Apollo Username:
         <input class="input_field" type="text" id="apolloUser">
@@ -128,20 +128,23 @@
 </fieldset>
         <br>
         <br> -->
-        <button id="submit">Submit</button>
-    </form>
-</div>
-
-
+            <button id="submit">Submit</button>
+        </form>
+    
+    <div id="details">
+       <h2>Details</h2>
+       <div id="detailResults">
+          Click on a cell below.
+       </div>
+      
+    </div>
+     </div>
     <!-- Control panel of buttons -->
-
-   
-
-
-
-     <!-- Display panel for all results -->
-    <table id="all-results">
-    </table>
+    <!-- Display panel for all results -->
+    <div id="tableContainer">
+        <table id="all-results">
+        </table>
+    </div>
 </body>
 
 </html>

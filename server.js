@@ -32,13 +32,18 @@ app.use(express.static(__dirname + '/public'));
 // GET ALL RESULTS
 
 app.get("/allresults", function(req, res) {
-    connection.query('SELECT * FROM mytable', function(err, rows) {
+    connection.query('SELECT * FROM mytabletwo', function(err, rows) {
         console.log(rows);
         if (err) { console.log("Error :" + err) } else { res.send(rows); };
     });
 });
 
-
+app.get("/ptallresults", function(req, res) {
+    connection.query('SELECT * FROM pt_table', function(err, rows) {
+        console.log(rows);
+        if (err) { console.log("Error :" + err) } else { res.send(rows); };
+    });
+});
 
 // DELETE FROM TABLE
 
@@ -49,7 +54,7 @@ app.delete("/delete:id?", function(req, res) {
 
 
 
-    connection.query('DELETE FROM mytable WHERE last_name= ?', [id], function(err, rows) {
+    connection.query('DELETE FROM mytabletwo WHERE last_name= ?', [id], function(err, rows) {
         console.log(rows);
         if (err) { console.log("Error :" + err) } else { res.send(rows); };
     });
@@ -66,12 +71,12 @@ app.patch("/update", function(req, res) {
     console.log(req.body.id);
 
 
-    connection.query('UPDATE mytable SET endDate= ? WHERE id= ?', [date, id], function(err, rows) {
+    connection.query('UPDATE mytabletwo SET endDate= ? WHERE id= ?', [date, id], function(err, rows) {
         console.log(rows);
         if (err) { console.log("Error :" + err) } else {
 
 
-            connection.query('UPDATE mytable SET active="Inactive" WHERE id= ?', [id], function(err, rows) {
+            connection.query('UPDATE mytabletwo SET active="Inactive" WHERE id= ?', [id], function(err, rows) {
                 console.log(rows);
                 if (err) { console.log("Error :" + err) } else { res.send(rows); };
             });
@@ -99,11 +104,13 @@ app.post('/add', function(req, res) {
 
     var active = "Active";
 
+    var license = req.body.license;
+
     console.log(reports + position + startDate);
 
-    var sql = "INSERT INTO mytable (first_name, last_name, email, department, active, position, reportsTo, startDate) VALUES ?";
+    var sql = "INSERT INTO mytabletwo (first_name, last_name, email, department, active, position, reportsTo, startDate, degree, license) VALUES ?";
     var values = [
-        [firstName, lastName, email, department, active, position, reports, startDate]
+        [firstName, lastName, email, department, active, position, reports, startDate, degree]
     ];
     connection.query(sql, [values], function(err, result) {
         if (err) throw err;

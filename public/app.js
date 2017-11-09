@@ -8,12 +8,52 @@ $(document).ready(function() {
 
     });
 
+     $("#personnelRoster").click(function(event) {
+        event.preventDefault();
+         homePageDisplay();
+
+    });
+
+
+  $("#addEmployeeButton").click(function(event) {
+        $("#form").toggle();
+
+    });
+
+         $("body").on('click','#editPT',function(e){
+
+
+                            $(function() {
+            $('#editPTPop').dialog({
+                closeOnEscape: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                open: function() {
+                    $('#shipDate').datepicker({ title: 'Test Dialog' }).blur();
+                    $("#shipDate").datepicker("option", "dateFormat", 'mm/dd/yy');
+                     $('#recDate').datepicker({ title: 'Test Dialog' }).blur();
+                    $("#recDate").datepicker("option", "dateFormat", 'mm/dd/yy');
+
+                    $(".ui-dialog-titlebar-close").hide();
+                },
+                close: function() {
+                    $('#shipDate').datepicker('destroy');
+                }
+            });
+
+        });
+                    console.log("THis is the PT button")
+
+         });
 
 
      $("#PT").click(function(event) {
         console.log("test");
        
          $("#all-results").empty();
+         $("#all-results2").empty();
           $.ajax({
                 url: "/ptallresults",
                 type: 'GET',
@@ -27,35 +67,45 @@ $(document).ready(function() {
 
 
             var myTableArray = [];
-                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><tr>");
+                myTableArray.push("<tr><th>Status</th><th>Id</th><th>Department</th><th>Program</th><th>Mailing</th><th>Order</th><th>Ship Date</th><th>Results Due</th><th>Date Received</th><tr>");
 
                 for (var i = 0; i < req.length; ++i) {
+
+                    var info = "";
                      
                      var dateTest = new Date(req[i].ship_date);
                      console.log("this the a date test" + dateTest);
                      var today = new Date();
 
-                     if (dateTest > today){
+                     if (dateTest < today){
                         console.log("dugh")
-                     }else{ console.log("sdf")};
+                        info = "Shipment Not Received";
+
+                     }else{ console.log("sdf")
+                        info = "Ontime";
+
+                 };
   
 
 
                     myTableArray.push(
 
-                        "<tr><td>" + req[i].id + "</td>" +
+                        "<tr><td>" + info + "</td>" +
+
+                        "<td>" + req[i].id + "</td>" +
                         "<td>" + req[i].department + "</td>" +
                         "<td>" + req[i].program + "</td>" +
                         "<td>" + req[i].product + "</td>" +
                         "<td>" + req[i].ordernum + "</td>" +
                         "<td>" + req[i].ship_date + "</td>" +
+                        "<td>" + req[i].date_resultsDue + "</td>" +
                         "<td>" + req[i].date_recd + "</td>"
                     );
 
                 };
 
 
-                $("#all-results").append(myTableArray);
+                $("#all-results2").append(myTableArray);
                 $("#totalUsers").html(req.length);
 
             });
@@ -64,13 +114,18 @@ $(document).ready(function() {
             });
 
 
-   $("#all-results").on('click','tr',function(e){
+   $("#all-results2").on('click','tr',function(e){
     e.preventDefault();
     var $row = $(this).closest('tr');
         var $columns = $row.find('td');
-        var firstname = $columns[1].innerHTML;
-        var lastname = $columns[2].innerHTML;
-        $('#detailResults').html(firstname + " " + lastname);
+        var id = $columns[1].innerHTML;
+        var department = $columns[2].innerHTML;
+        var program = $columns[3].innerHTML;
+        var mailing = $columns[4].innerHTML;
+        var order = $columns[5].innerHTML;
+        var shipDate = $columns[6].innerHTML;
+        $('#detailResults').html(department + "<br>" + program + "-" + mailing  + " " + order + "<br>" );
+         $('#detailResults').append("<button id='editPT'>Edit</button>");
 
 
 }); 

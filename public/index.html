@@ -27,6 +27,15 @@
         <button id="submitEndDate">Submit</button>
         <button id="close">Cancel</button>
     </div>
+    <!-- Pop-up for editing PT -->
+        <div id="editPTPop" title="Edit PT Information">
+        <p>Change Ship Date
+        <input type="text" id="shipDate" />
+        <p>Change Received Date
+        <input type="text" id="recDate"/>
+        <button id="submitEndDate">Submit</button>
+        <button id="close">Cancel</button>
+    </div>
     <!-- Input panel for adding new employees -->
     <h1>Quality Dashboard</h1>
     <hr>
@@ -38,7 +47,7 @@
              <button id="PT">Proficiency Testing</button>
             <!--         <button id="createPDF">Create PDF</button>
         <button id="e-mail">Generate E-mail</button> -->
-
+            <button id="addEmployeeButton">Add Employee</button>
             <button onclick="window.location.href='charts.html'">Chart Page</button>
         </div>
     </div>
@@ -143,6 +152,8 @@
     <!-- Display panel for all results -->
     <div id="tableContainer">
         <table id="all-results">
+        </table>
+         <table id="all-results2">
         </table>
     </div>
 </body>

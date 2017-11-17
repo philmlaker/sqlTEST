@@ -169,63 +169,25 @@ $(document).ready(function() {
 
                 var myTableArray = [];
 
-                myTableArray.push("<tr><th >Id</th><th>First Name</th><th>Last Name</th><th>E-mail</th><th>Department</th><th>Active</th><th>End Date</th><th>Position</th><th>Start Date</th><th>Degree</th><th>License</th><th>Inactivate</th><tr>");
+                myTableArray.push("<tr><th>Id</th><th>First Name</th><th>Last Name</th><tr>");
 
                 for (var i = 0; i < req.length; ++i) {
 
-                    if (req[i].active == "Active") {
+                  
+                        var firstLine =  "<tr class='purple'><td>"
+                          
 
-                            if(req[i].license == null){
-                                var empty = "-";
-                                req[i].license = empty;
-
-                            } else{};
-
-                             if (req[i].endDate == null){
-                                var empty = "-";
-                                req[i].endDate = empty;
-
-                            }else{}
-
-                            if (req[i].startDate == null){
-                                var empty = "-";
-                                req[i].startDate = empty;
-
-                            }else{}; 
-
-                            if (req[i].reportsTo == null){
-                                var empty = "-";
-                                req[i].reportsTo = empty;
-
-                            }else{};
-                        
-                            if(req[i].department == "Core"){
-                                var firstLine =  "<tr class='green'><td>" + req[i].id + "</td>";
-
-                            }else if (req[i].department == "Analytical Chemistry"){ var firstLine =  "<tr class='orange'><td>" + req[i].id + "</td>"}
-                            else if (req[i].department == "Molecular"){ var firstLine =  "<tr class='purple'><td>" + req[i].id + "</td>"}
-                            else if (req[i].department == "Administrative"){ var firstLine =  "<tr class='blue'><td>" + req[i].id + "</td>"}
-                            else{var firstLine =  "<tr ><td>" + req[i].id + "</td>"};
-
+                         
                         
 
                         myTableArray.push(
                             firstLine +
                             "<td>" + req[i].first_name + "</td>" +
                             "<td>" + req[i].last_name + "</td>" +
-                            "<td><a href='mailto:" + req[i].email + "'>" + req[i].email + "</a></td>" +
-                            "<td>" + req[i].department + "</td>" +
-                            "<td class='green'>" + req[i].active + "</td>" +
-                            "<td>" + req[i].endDate + "</td>" +
-                            "<td>" + req[i].position + "</td>" +
-                            "<td>" + req[i].startDate + "</td>" +
-                            "<td>" + req[i].degree + "</td>" +
-                            "<td>" + req[i].license + "</td>" +
-                            "<td><button id=" + "inactivate" + ">Inactivate</button></td></tr>"
+                            "<td>" + req[i].email + "</td>" +
+                          " </tr>"
                         );
-                    } else {
-                        // Do nothing
-                        };
+                   
 
                 };
 

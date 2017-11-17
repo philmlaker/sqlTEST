@@ -24,6 +24,8 @@ var connection = mysql.createConnection({
     // database: 'test_db'
 });
 
+
+
 app.use(express.static(__dirname + '/public'));
 
 
